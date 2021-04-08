@@ -1,0 +1,11 @@
+{
+  "main": "Main",
+  "news": "News",
+  "games": "Games",
+  "about": "About",
+  "logout": "Logout",
+  "title": "Application",
+  "open": "Open",
+  "newNews": "Create news",
+  "read": "Read"
+}
