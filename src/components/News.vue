@@ -18,15 +18,18 @@
 							<div class="ml-4">{{ ne.date }}</div>
 						</v-flex>
 						<v-flex xs8>
-							<v-card-text>
-								<h2 class="text--primary">{{ ne[lang].title }}</h2>
-								<p>{{ ne[lang].description}}</p>
-								<div>{{ ne[lang].text}}</div>
+							<v-card-text primary-title>
+								<h2 class="text--primary">{{ ne[langs].title }}</h2>
+								<div>{{ ne[langs].description}}</div>
+								<!--<div class="tiptap-vuetify-editor__content" v-html="ne[langs].text"></div>-->
 							</v-card-text>
-							<v-card-actions>
-								<v-spacer></v-spacer>
-								<v-btn class="info" :to="'/newsFull/' + ne.id">{{ $t('read') }}</v-btn>
-							</v-card-actions>
+							<div class="butt">
+								<v-card-actions class="d-flex align-end">
+									<v-spacer></v-spacer>
+									<v-btn v-if="isUserLoggedIn" text class="primary textreal" :to="'/editNews/' + ne.id">{{ $t('edit') }}</v-btn>
+									<v-btn class="info" :to="'/newsFull/' + ne.url">{{ $t('read') }}</v-btn>
+								</v-card-actions>
+							</div>
 						</v-flex>
 					</v-layout>
 				</v-card>
@@ -56,7 +59,7 @@
 	export default {
 		data () {
 			return {
-				lang: localStorage.getItem('lang') || 'en',
+				//lang: localStorage.getItem('lang') || 'en',
 			}
 		},
 		computed: {
@@ -66,6 +69,17 @@
 			news () {
 				//console.log(this.$store.getters.news)
 				return this.$store.getters.news
+			},
+			langs () {
+				return this.$i18n.locale
+			},
+			isUserLoggedIn () {
+				return this.$store.getters.isUserLoggedIn
+			}
+		},
+		watch: {
+			langs: function() {
+				console.log("GG ", this.langs)
 			}
 		}
 	}
@@ -74,6 +88,14 @@
 <style scope>
 	.dateList {
 		
+	}
+	.butt {
+		position:absolute;
+		bottom:0;
+		right:0;
+		padding:5px 10px;
+		border-top-right-radius:5px;
+		border-top-left-radius:5px;
 	}
 	.left-radius {
 		border-top-left-radius:3px;

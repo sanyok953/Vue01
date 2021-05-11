@@ -1,0 +1,15 @@
+.v-application {
+    /*background-color: var(--v-background-base) !important;*/
+	background: url("img/mc.png") transparent repeat !important;
+	display: flex;
+}
+
+.main-color {
+	background:gainsboro;
+}
+
+.h2title {
+	background: var(--v-background-base);
+	display:inline-block;
+	padding:0 8px;
+}

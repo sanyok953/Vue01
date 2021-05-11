@@ -3,11 +3,11 @@
 		
 		<v-layout row>
 			<v-flex xs12 sm6 offset-sm3>
-				<h1 class="text--secondary mb-3">Create New News</h1>
+				<h1 class="text--secondary mb-3">Create New Game</h1>
 				<v-form v-model="valid" ref="form" validation class="mb-3">
 					<!-- title -->
 					<v-text-field
-						label="News title EN"
+						label="Game title EN"
 						name="title1"
 						type="text"
 						v-model="title1"
@@ -15,7 +15,7 @@
 						:rules="[v => !!v || 'TitleEn is required']"
 					></v-text-field>
 					<v-text-field
-						label="News title ES"
+						label="Game title ES"
 						name="title2"
 						type="text"
 						v-model="title2"
@@ -23,7 +23,7 @@
 						:rules="[v => !!v || 'TitleEs is required']"
 					></v-text-field>
 					<v-text-field
-						label="News title RU"
+						label="Game title RU"
 						name="title3"
 						type="text"
 						v-model="title3"
@@ -32,7 +32,7 @@
 					></v-text-field>
 					<!-- description -->
 					<v-textarea
-						label="News description EN"
+						label="Game description EN"
 						name="description1"
 						type="text"
 						v-model="description1"
@@ -40,7 +40,7 @@
 						:rules="[v => !!v || 'DescriptionEn is required']"
 					></v-textarea>
 					<v-textarea
-						label="News description ES"
+						label="Game description ES"
 						name="description2"
 						type="text"
 						v-model="description2"
@@ -48,7 +48,7 @@
 						:rules="[v => !!v || 'DescriptionEs is required']"
 					></v-textarea>
 					<v-textarea
-						label="News description RU"
+						label="Game description RU"
 						name="description3"
 						type="text"
 						v-model="description3"
@@ -57,7 +57,7 @@
 					></v-textarea>
 					<!-- text -->
 					<v-textarea
-						label="News text EN"
+						label="Game text EN"
 						name="text1"
 						type="text"
 						v-model="text1"
@@ -65,7 +65,7 @@
 						:rules="[v => !!v || 'TextEn is required']"
 					></v-textarea>
 					<v-textarea
-						label="News text ES"
+						label="Game text ES"
 						name="text2"
 						type="text"
 						v-model="text2"
@@ -73,7 +73,7 @@
 						:rules="[v => !!v || 'TextEs is required']"
 					></v-textarea>
 					<v-textarea
-						label="News text RU"
+						label="Game text RU"
 						name="text3"
 						type="text"
 						v-model="text3"
@@ -119,8 +119,8 @@
 							:loading="loading"
 							:disabled="!valid || !image || loading"
 							class="success mb-4"
-							@click="createNews"
-						>Create news</v-btn>
+							@click="createGame"
+						>Create Game</v-btn>
 					</v-flex>
 				</v-layout>
 			</v-flex>
@@ -132,15 +132,15 @@
 	export default {
 		data: () => ({
 			edit: false,
-			title1: '',
-			title2: '',
-			title3: '',
-			description1: '',
-			description2: '',
-			description3: '',
-			text1: '',
-			text2: '',
-			text3: '',
+			title1: 'ten',
+			title2: 'tes',
+			title3: 'tru',
+			description1: 'den',
+			description2: 'des',
+			description3: 'dru',
+			text1: 'fen',
+			text2: 'fes',
+			text3: 'fru',
 			promo: false,
 			valid: false,
 			image: null,
@@ -155,9 +155,9 @@
 			}*/
 		},
 		methods: {
-			createNews () {
+			createGame () {
 				if(this.$refs.form.validate() && this.image) {
-					const ne = {
+					const game = {
 						en: {
 							title: this.title1,
 							description: this.description1,
@@ -174,14 +174,14 @@
 							text: this.text3
 						},
 						url: transliterate(this.title1),
-						date: '12-12-2022',
+						date: this.getNow(),
 						promo: this.promo,
 						image: this.image
 					}
 					
-					this.$store.dispatch('createNews', ne)
+					this.$store.dispatch('createGame', game)
 					.then(() => {
-						this.$router.push('/news')
+						this.$router.push('/games')
 					})
 					.catch(() => {})
 				}
@@ -200,6 +200,11 @@
 				}
 				
 				reader.readAsDataURL(file)
+			},
+			getNow () {
+				const today = new Date()
+				console.log(today)
+				return today.getDate() + '-' + (today.getMonth() + 1 ) + '-' + today.getFullYear()
 			}
 		}
 	}

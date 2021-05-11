@@ -4,8 +4,11 @@
   "games": "Games",
   "about": "About",
   "logout": "Logout",
+  "login": "Login",
   "title": "Application",
   "open": "Open",
   "newNews": "Create news",
-  "read": "Read"
+  "read": "Read",
+  "edit": "Edit",
+  "ourTeam": "Our team"
 }

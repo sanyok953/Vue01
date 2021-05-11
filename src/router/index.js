@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import AuthGuard from './auth-guard'
 import Home from '@/components/Home'
 import News from '@/components/News'
 import New from '@/components/New'
@@ -8,6 +9,9 @@ import Game from '@/components/Game'
 import About from '@/components/About'
 import Login from '@/components/Login'
 import NewNews from '@/components/NewNews'
+import EditNews from '@/components/EditNews'
+import NewGame from '@/components/NewGame'
+import EditGame from '@/components/EditGame'
 
 Vue.use(VueRouter)
 
@@ -23,7 +27,7 @@ const routes = [
 		component: News
 	},
 	{
-		path: '/newsFull/:id',
+		path: '/newsFull/:url',
 		props: true,
 		name: 'newsFull',
 		component: New
@@ -47,7 +51,28 @@ const routes = [
 	{
 		path: '/newNews',
 		name: 'newNews',
-		component: NewNews
+		component: NewNews,
+		beforeEnter: AuthGuard
+	},
+	{
+		path: '/newGame',
+		name: 'newGame',
+		component: NewGame,
+		beforeEnter: AuthGuard
+	},
+	{
+		path: '/editNews/:ide',
+		props: true,
+		name: 'editNews',
+		component: EditNews,
+		beforeEnter: AuthGuard
+	},
+	{
+		path: '/editGame/:ide',
+		props: true,
+		name: 'editGame',
+		component: EditGame,
+		beforeEnter: AuthGuard
 	},
 	{
 		path: '/login',

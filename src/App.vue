@@ -1,5 +1,5 @@
 <template>
-	<div id="app">
+	<div id="app" >
 		<v-app id="inspire">
 		
 			<v-toolbar dark class="primary">
@@ -24,6 +24,7 @@
 					</v-btn>
 					<v-btn
 						@click="onLogout"
+						v-if="isUserLoggedIn"
 						text
 					>
 						<v-icon left>mdi-account-arrow-right</v-icon>
@@ -33,16 +34,12 @@
 				
 				<template>
 					<div class="langBut" v-ripple="{ class: `gray--text` }" v-click-outside="hideLang">
-						<img class="show" :src="'./' + langs + '.png'" @click="lgmenu = !lgmenu" v-show="!lgmenu">
+						<img class="show" :src="require(`@/assets/img/${langs}.png`)" @click="lgmenu = !lgmenu" v-show="!lgmenu">
 						<ul class="lang_menu" v-show="lgmenu">
-							<li v-for="flag in flags" :key="flag.name" v-show="flag.name != langs" @click="langChange($event, flag.name)"><img :src="flag.image"/></li>
+							<li v-for="flag in flags" :key="flag.name" v-show="flag.name != langs" @click="setLocale(flag.name)"><img :src="require(`@/assets/img/${flag.image}`)"/></li>
 						</ul>
 					</div>
 				</template>
-				
-<!--<select v-model="lang" dark @change="handleChange($event)">
-	<option v-for="flag in flags" :key="flag.name">{{ flag.name }}</option>
-</select>-->
 
 			</v-toolbar>
 		
@@ -68,6 +65,7 @@
 						</v-list-item>
 						
 						<v-list-item link
+							v-if="isUserLoggedIn"
 							@click="onLogout"
 						>
 							<v-list-item-action>
@@ -80,12 +78,7 @@
 					</v-list>
 				</v-navigation-drawer>
 
-				
-				
-
-				
-
-				<v-main>{{ langs }}
+				<v-main>
 					<router-view />
 				</v-main>
 				
@@ -112,8 +105,7 @@
 				</v-snackbar>
 				
 				<v-footer
-					color="indigo"
-					app
+					color="primary"
 				>
 					<span class="white--text">&copy; {{ new Date().getFullYear() }}</span>
 				</v-footer>
@@ -123,6 +115,7 @@
 </template>
 
 <script>
+//import './assets/app.css'
 
 export default {
 	name: 'App',
@@ -131,13 +124,22 @@ export default {
 	},
 	computed: {
 		links () {
+			if (this.isUserLoggedIn) {
+				return [
+					{title: this.$t('main'), icon: 'mdi-home', url: '/'},
+					{title: this.$t('news'), icon: 'mdi-newspaper-variant', url: '/news'},
+					{title: this.$t('games'), icon: 'mdi-google-controller', url: '/games'},
+					{title: this.$t('about'), icon: 'mdi-account-multiple', url: '/about'},
+					{title: this.$t('newNews'), icon: 'mdi-note-plus', url: '/newNews'},
+					{title: this.$t('newGame'), icon: 'mdi-note-plus', url: '/newGame'},
+				]
+			}
 			return [
 				{title: this.$t('main'), icon: 'mdi-home', url: '/'},
 				{title: this.$t('news'), icon: 'mdi-newspaper-variant', url: '/news'},
 				{title: this.$t('games'), icon: 'mdi-google-controller', url: '/games'},
 				{title: this.$t('about'), icon: 'mdi-account-multiple', url: '/about'},
-				{title: this.$t('newNews'), icon: 'mdi-account-multiple', url: '/newNews'},
-				{title: this.$t('login'), icon: 'mdi-account-multiple', url: '/login'}
+				{title: this.$t('login'), icon: 'mdi-account-arrow-left', url: '/login'}
 			]
 		},
 		error () {
@@ -145,55 +147,66 @@ export default {
 		},
 		langs () {
 			return this.$i18n.locale
+		},
+		isUserLoggedIn () {
+			return this.$store.getters.isUserLoggedIn
 		}
 	},
 	data: () => ({
 		lgmenu: false,
 		drawer: false,
+		back: {background: require('./assets/img/mc.png')},
 		//lang: localStorage.getItem('lang') || 'en',
 		flags: [
-			{ name: 'en', image: './en.png'},
-			{ name: 'es', image: './es.png'},
-			{ name: 'ru', image: './ru.png'}
+			{ name: 'en', image: 'en.png'},
+			{ name: 'es', image: 'es.png'},
+			{ name: 'ru', image: 'ru.png'}
 		]
 	}),
 	methods: {
 		closeError () {
 			this.$store.dispatch('clearError')
 		},
-		/*handleChange(event) {
-			localStorage.setItem('lang', event.target.value)
-			window.location.reload()
-		},*/
-		langChange(event, lg) {
-			localStorage.setItem('lang', lg)
-			this.langs = lg
-			console.log(lg)
-			this.$store.actions.setLangs(lg)
+		setLocale(locale) {
+			this.$i18n.locale = locale
+			this.lgmenu = false
+			console.log("FF ", this.$router)
+			localStorage.setItem('lang', locale)
 			this.$forceUpdate()
-			//window.location.reload()
 		},
 		hideLang () {
 			this.lgmenu = false
 		},
 		onLogout () {
-		
+			this.$store.dispatch('logoutUser')
+			this.$router.push('/')
 		}
 	},
-	/*watch: {
-		locale(val) {
-			this.$i18n.locale = val
-			localStorage.setItem('lang', val)
-			this.$forceUpdate()
-		} 
-	},
-	mounted () {
-		this.langs = this.$i18n.locale;
-	}*/
+	watch: {
+		flags: function() {
+			console.log("GG ", this.langs)
+		}
+	}
 }
 </script>
 
 <style scoped>
+	/*.appBack {
+		background: url("./assets/img/mc.png") repeat;
+	}*/
+
+	.bg {
+		width: 100%;
+		height: 100%;
+		position: absolute;
+		top: 0;
+		left: 0;
+		background: url( 'https://cdn.pixabay.com/photo/2016/03/26/13/09/organic-1280537_1280.jpg') no-repeat center center;
+		background-size: cover;
+		background-color: red;
+		transform: scale(1.1);
+	}
+
 	.pointer {
 		cursor:pointer;
 	}

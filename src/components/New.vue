@@ -8,16 +8,19 @@
 						height="300px"
 					></v-img>
 					<v-divider></v-divider>
+					<v-card-title>
+						{{ ne[langs].title }}
+					</v-card-title>
+					<v-card-subtitle>
+						{{ ne.date }}
+					</v-card-subtitle>
 					<v-card-text>
-						<h2 class="text--primary">{{ ne[lang].title }}</h2>
-						<p>{{ ne[lang].description }}</p>
-						<div>{{ ne[lang].text }}</div>
+						<div class="tiptap-vuetify-editor__content" v-html="ne[langs].description + '<br />' + ne[langs].text"></div>
 					</v-card-text>
 					<v-divider></v-divider>
-					<v-card-actions>
-						<div>{{ ne.date }}</div>
+					<v-card-actions v-if="isUserLoggedIn">
 						<v-spacer></v-spacer>
-						
+						<v-btn text class="primary rounded-0 textreal" :to="'/editNews/' + ne.id">{{ $t('edit') }}</v-btn>
 						<!--<EditAdModal :ad="ad" v-if="isOwner"></EditAdModal>-->
 						<!--<buy-modal :ad="ad"></buy-modal>-->
 					</v-card-actions>
@@ -40,26 +43,35 @@
 <script>
 	//import EditAdModal from './EditAdModal'
 	export default {
-		props: ['id'],
+		props: ['url'],
 		computed: {
 			ne () {
-				const id = this.id
-				return this.$store.getters.newsById(id)
+				const url = this.url
+				//return this.$store.getters.newsById(url)
+				return this.$store.getters.newsByUrl(url)
 			},
 			loading () {
 				return this.$store.getters.loading
 			},
-			/*isOwner () {
-				return this.ad.ownerId === this.$store.getters.user.id
-			}*/
+			langs () {
+				return this.$i18n.locale
+			},
+			isUserLoggedIn () {
+				return this.$store.getters.isUserLoggedIn
+			}
 		},
-		data () {
+		/*data () {
 			return {
 				lang: localStorage.getItem('lang') || 'en',
 			}
-		},
+		},*/
 		components: {
 			//EditAdModal: EditAdModal
+		},
+		watch: {
+			langs: function() {
+				console.log("GG ", this.langs)
+			}
 		}
 	}
 </script>

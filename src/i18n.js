@@ -8,6 +8,7 @@ Vue.use(VueI18n)
 
 export default new VueI18n({
 	locale: localStorage.getItem('lang') || 'en',
+	fallbackLocale: 'ru',
 	messages: {
 		en: en,
 		ru: ru,

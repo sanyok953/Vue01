@@ -4,8 +4,11 @@
   "games": "Juegos",
   "about": "Sobre nosotros",
   "logout": "Salir",
+  "login": "Ententar",
   "title": "La aplicacion",
   "open": "Abrir",
   "newNews": "Crear news",
-  "read": "Lee"
+  "read": "Lee",
+  "edit": "Editar",
+  "ourTeam": "Nuestro equipo"
 }

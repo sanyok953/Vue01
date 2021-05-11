@@ -3,7 +3,7 @@
 		
 		<v-layout row>
 			<v-flex xs12 sm6 offset-sm3>
-				<h1 class="text--secondary mb-3">Create New News</h1>
+				<h1 class="text--secondary mb-3">Edit News</h1>
 				<v-form v-model="valid" ref="form" validation class="mb-3">
 					<!-- title -->
 					<v-text-field
@@ -11,6 +11,7 @@
 						name="title1"
 						type="text"
 						v-model="title1"
+						value="nez.en.title"
 						required
 						:rules="[v => !!v || 'TitleEn is required']"
 					></v-text-field>
@@ -56,33 +57,29 @@
 						:rules="[v => !!v || 'DescriptionRu is required']"
 					></v-textarea>
 					<!-- text -->
-					<v-textarea
-						label="News text EN"
-						name="text1"
-						type="text"
+					<h4 class="text--secondary mt-3">News text EN</h4>
+					<tiptap-vuetify
 						v-model="text1"
-						multi-line
-						:rules="[v => !!v || 'TextEn is required']"
-					></v-textarea>
-					<v-textarea
-						label="News text ES"
-						name="text2"
-						type="text"
+						:extensions="extensions"
+						:toolbar-attributes="{ color: 'primary' }"
+						:rules="[v => !!v || 'TextEn is required']" />
+					<h4 class="text--secondary mt-3">News text ES</h4>
+					<tiptap-vuetify
 						v-model="text2"
-						multi-line
+						:extensions="extensions"
+						:toolbar-attributes="{ color: 'primary' }"
 						:rules="[v => !!v || 'TextEs is required']"
-					></v-textarea>
-					<v-textarea
-						label="News text RU"
-						name="text3"
-						type="text"
+					/>
+					<h4 class="text--secondary mt-3">News text RU</h4>
+					<tiptap-vuetify
 						v-model="text3"
-						multi-line
+						:extensions="extensions"
+						:toolbar-attributes="{ color: 'primary' }"
 						:rules="[v => !!v || 'TextRu is required']"
-					></v-textarea>
+					/>
 				</v-form>
-				
-				<v-layout row class="mb-3 mt-2">
+				<h4 class="text--secondary mt-3">Load Image</h4>
+				<v-layout row class="mb-3 mt-2 ml-1">
 					<v-flex xs12>
 						<v-btn
 							class="warning"
@@ -96,13 +93,13 @@
 					</v-flex>
 				</v-layout>
 				
-				<v-layout row>
+				<v-layout row class='ml-1'>
 					<v-flex xs12>
 						<img :src="imageSrc" style="max-height: 100px" v-if="imageSrc" />
 					</v-flex>
 				</v-layout>
 				
-				<v-layout row>
+				<v-layout row class='ml-1'>
 					<v-flex xs12>
 						<v-switch
 							color="primary"
@@ -111,27 +108,57 @@
 						></v-switch>
 					</v-flex>
 				</v-layout>
-				
-				<v-layout row>
+				<v-layout row class='ml-1'>
 					<v-flex xs12>
 						<v-spacer></v-spacer>
 						<v-btn
 							:loading="loading"
-							:disabled="!valid || !image || loading"
-							class="success mb-4"
-							@click="createNews"
-						>Create news</v-btn>
+							:disabled="!valid || !(this.imageSrc.length > 1) || loading"
+							class="success mb-12 mt-3"
+							@click="editNews"
+						>Edit news</v-btn>
 					</v-flex>
 				</v-layout>
+				{{ ini(nez) }}
 			</v-flex>
 		</v-layout>
 	</v-container>
 </template>
 
 <script>
+	import { TiptapVuetify, Heading, Bold, Italic, Strike, Underline, Code, Paragraph, BulletList, OrderedList, ListItem, Link, Blockquote, HardBreak, HorizontalRule, History, Image } from 'tiptap-vuetify'
 	export default {
+		props: ['ide'],
+		components: { TiptapVuetify },
 		data: () => ({
-			edit: false,
+			extensions: [
+				History,
+				Blockquote,
+				Link,
+				Underline,
+				Strike,
+				Italic,
+				ListItem, // if you need to use a list (BulletList, OrderedList)
+				BulletList,
+				OrderedList,
+				Image,
+				[
+					Heading,
+					{
+						// Options that fall into the tiptap's extension
+						options: {
+							levels: [1, 2, 3]
+						}
+					}
+				],
+				Bold,
+				Link,
+				Code,
+				HorizontalRule,
+				Paragraph,
+				HardBreak // line break on Shift + Ctrl + Enter
+			],
+			load: false,
 			title1: '',
 			title2: '',
 			title3: '',
@@ -147,6 +174,10 @@
 			imageSrc: ''
 		}),
 		computed: {
+			nez () {
+				const ide = this.ide
+				return this.$store.getters.newsById(ide)
+			},
 			loading () {
 				return this.$store.getters.loading
 			},
@@ -155,8 +186,24 @@
 			}*/
 		},
 		methods: {
-			createNews () {
-				if(this.$refs.form.validate() && this.image) {
+			ini (nz) {
+				if(!this.load) { // Сработает один раз, какого то черта работало несколько при загрузке картинки
+					this.title1 = nz.en.title
+					this.title2 = nz.es.title
+					this.title3 = nz.ru.title
+					this.description1 = nz.en.description
+					this.description2 = nz.es.description
+					this.description3 = nz.ru.description
+					this.text1 = nz.en.text
+					this.text2 = nz.es.text
+					this.text3 = nz.ru.text
+					this.promo = nz.promo
+					this.imageSrc = nz.imageSrc
+					this.load = true
+				}
+			},
+			editNews () {
+				if(this.$refs.form.validate() && this.imageSrc.length > 1) {
 					const ne = {
 						en: {
 							title: this.title1,
@@ -173,13 +220,13 @@
 							description: this.description3,
 							text: this.text3
 						},
-						url: transliterate(this.title1),
-						date: '12-12-2022',
 						promo: this.promo,
-						image: this.image
+						imageSrc: this.imageSrc,
+						image: this.image,
+						id: this.ide
 					}
 					
-					this.$store.dispatch('createNews', ne)
+					this.$store.dispatch('editNews', ne)
 					.then(() => {
 						this.$router.push('/news')
 					})
@@ -190,29 +237,22 @@
 				this.$refs.fileInput.click()
 			},
 			onFileChange (event) {
+				this.imageSrc = ''
 				const file = event.target.files[0]
-				
+				//console.log(event)
 				const reader = new FileReader()
 				reader.onload = () => {
-					this.imageSrc = reader.result
 					this.image = file
-					//console.log(e, this.imageSrc, this.image)
+					this.imageSrc = reader.result
+					//console.log("CH ", this.imageSrc, this.image, reader)
 				}
-				
 				reader.readAsDataURL(file)
+			}
+		},
+		watch: {
+			imageSrc: function() {
+				console.log("imageSrc changed ", this.imageSrc)
 			}
 		}
 	}
-			function transliterate(word) {
-				const keys = {
-					'а': 'a', 'б': 'b', 'в': 'v', 'г': 'g', 'д': 'd',
-					'е': 'e', 'ё': 'e', 'ж': 'j', 'з': 'z', 'и': 'i',
-					'к': 'k', 'л': 'l', 'м': 'm', 'н': 'n', 'о': 'o',
-					'п': 'p', 'р': 'r', 'с': 's', 'т': 't', 'у': 'u',
-					'ф': 'f', 'х': 'h', 'ц': 'c', 'ч': 'ch', 'ш': 'sh',
-					'щ': 'shch', 'ы': 'y', 'э': 'e', 'ю': 'u', 'я': 'ya',
-					' ': '-', ':': '', '!': '', '?': '', '(': '', ')': ''
-				}
-				return word.split("").map((char) => keys[char] || char.toLowerCase()).join("");
-			}
 </script>
