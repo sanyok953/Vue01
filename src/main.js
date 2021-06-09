@@ -21,10 +21,10 @@ Vue.use(TiptapVuetifyPlugin, {
 })
 
 Vue.config.productionTip = false
-console.log(vuetify);
+//console.log(vuetify);
 new Vue({
-    router,
     store,
+    router,
     vuetify,
     render: h => h(App),
     i18n,
@@ -47,5 +47,8 @@ new Vue({
 		})
 		
 		this.$store.dispatch('fetchNews')
+		this.$store.dispatch('fetchGames')
+		this.$store.dispatch('fetchTeam')
+		this.$store.dispatch('fetchAbout')
 	}
 }).$mount('#app')

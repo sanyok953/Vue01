@@ -12,15 +12,19 @@ import NewNews from '@/components/NewNews'
 import EditNews from '@/components/EditNews'
 import NewGame from '@/components/NewGame'
 import EditGame from '@/components/EditGame'
+import NewTeam from '@/components/NewTeam'
+import EditTeam from '@/components/EditTeam'
 
 Vue.use(VueRouter)
 
 const routes = [
+	// home
 	{
 		path: '/',
 		name: 'Home',
 		component: Home
 	},
+	// news
 	{
 		path: '/news',
 		name: 'news',
@@ -33,6 +37,20 @@ const routes = [
 		component: New
 	},
 	{
+		path: '/newNews',
+		name: 'newNews',
+		component: NewNews,
+		beforeEnter: AuthGuard
+	},
+	{
+		path: '/editNews/:ide',
+		props: true,
+		name: 'editNews',
+		component: EditNews,
+		beforeEnter: AuthGuard
+	},
+	// games
+	{
 		path: '/games',
 		name: 'games',
 		component: Games
@@ -44,27 +62,9 @@ const routes = [
 		component: Game
 	},
 	{
-		path: '/about',
-		name: 'about',
-		component: About
-	},
-	{
-		path: '/newNews',
-		name: 'newNews',
-		component: NewNews,
-		beforeEnter: AuthGuard
-	},
-	{
 		path: '/newGame',
 		name: 'newGame',
 		component: NewGame,
-		beforeEnter: AuthGuard
-	},
-	{
-		path: '/editNews/:ide',
-		props: true,
-		name: 'editNews',
-		component: EditNews,
 		beforeEnter: AuthGuard
 	},
 	{
@@ -74,6 +74,26 @@ const routes = [
 		component: EditGame,
 		beforeEnter: AuthGuard
 	},
+	// about
+	{
+		path: '/about',
+		name: 'about',
+		component: About
+	},
+	{
+		path: '/newTeam',
+		name: 'newTeam',
+		component: NewTeam,
+		beforeEnter: AuthGuard
+	},
+	{
+		path: '/editTeam/:ide',
+		props: true,
+		name: 'editTeam',
+		component: EditTeam,
+		beforeEnter: AuthGuard
+	},
+	// login
 	{
 		path: '/login',
 		name: 'login',

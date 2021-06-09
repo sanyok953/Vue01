@@ -3,61 +3,61 @@
 		
 		<v-layout row>
 			<v-flex xs12 sm6 offset-sm3>
-				<h1 class="text--secondary mb-3">Create New Game</h1>
+				<h1 class="text--secondary mb-3">Create New Employee</h1>
 				<v-form v-model="valid" ref="form" validation class="mb-3">
-					<!-- title -->
+					<!-- name -->
 					<v-text-field
-						label="Game title EN"
-						name="title1"
+						label="Employee name EN"
+						name="name1"
 						type="text"
-						v-model="title1"
+						v-model="name1"
 						required
-						:rules="[v => !!v || 'TitleEn is required']"
+						:rules="[v => !!v || 'NameEn is required']"
 					></v-text-field>
 					<v-text-field
-						label="Game title ES"
-						name="title2"
+						label="Employee name ES"
+						name="name2"
 						type="text"
-						v-model="title2"
+						v-model="name2"
 						required
-						:rules="[v => !!v || 'TitleEs is required']"
+						:rules="[v => !!v || 'NameEs is required']"
 					></v-text-field>
 					<v-text-field
-						label="Game title RU"
-						name="title3"
+						label="Employee name RU"
+						name="name3"
 						type="text"
-						v-model="title3"
+						v-model="name3"
 						required
-						:rules="[v => !!v || 'TitleRu is required']"
+						:rules="[v => !!v || 'NameRu is required']"
 					></v-text-field>
-					<!-- description -->
+					<!-- position -->
 					<v-textarea
-						label="Game description EN"
-						name="description1"
+						label="Employee position EN"
+						name="position1"
 						type="text"
-						v-model="description1"
+						v-model="position1"
 						multi-line
-						:rules="[v => !!v || 'DescriptionEn is required']"
+						:rules="[v => !!v || 'PositionEn is required']"
 					></v-textarea>
 					<v-textarea
-						label="Game description ES"
-						name="description2"
+						label="Employee position ES"
+						name="position2"
 						type="text"
-						v-model="description2"
+						v-model="position2"
 						multi-line
-						:rules="[v => !!v || 'DescriptionEs is required']"
+						:rules="[v => !!v || 'PositionEs is required']"
 					></v-textarea>
 					<v-textarea
-						label="Game description RU"
-						name="description3"
+						label="Employee position RU"
+						name="position3"
 						type="text"
-						v-model="description3"
+						v-model="position3"
 						multi-line
-						:rules="[v => !!v || 'DescriptionRu is required']"
+						:rules="[v => !!v || 'PositionRu is required']"
 					></v-textarea>
 					<!-- text -->
 					<v-textarea
-						label="Game text EN"
+						label="Employee text EN"
 						name="text1"
 						type="text"
 						v-model="text1"
@@ -65,7 +65,7 @@
 						:rules="[v => !!v || 'TextEn is required']"
 					></v-textarea>
 					<v-textarea
-						label="Game text ES"
+						label="Employee text ES"
 						name="text2"
 						type="text"
 						v-model="text2"
@@ -73,7 +73,7 @@
 						:rules="[v => !!v || 'TextEs is required']"
 					></v-textarea>
 					<v-textarea
-						label="Game text RU"
+						label="Employee text RU"
 						name="text3"
 						type="text"
 						v-model="text3"
@@ -98,17 +98,7 @@
 				
 				<v-layout row>
 					<v-flex xs12>
-						<img :src="imageSrc" style="max-height: 100px" v-if="imageSrc" />
-					</v-flex>
-				</v-layout>
-				
-				<v-layout row>
-					<v-flex xs12>
-						<v-switch
-							color="primary"
-							label="Add to promo"
-							v-model="promo"
-						></v-switch>
+						<img :src="imageSrc" style="max-height: 100px;" v-if="imageSrc" />
 					</v-flex>
 				</v-layout>
 				
@@ -119,8 +109,8 @@
 							:loading="loading"
 							:disabled="!valid || !image || loading"
 							class="success mb-4"
-							@click="createGame"
-						>Create Game</v-btn>
+							@click="createEmployee"
+						>Create Employee</v-btn>
 					</v-flex>
 				</v-layout>
 			</v-flex>
@@ -132,16 +122,15 @@
 	export default {
 		data: () => ({
 			edit: false,
-			title1: '',
-			title2: '',
-			title3: '',
-			description1: '',
-			description2: '',
-			description3: '',
-			text1: '',
-			text2: '',
-			text3: '',
-			promo: false,
+			name1: 'ten',
+			name2: 'tes',
+			name3: 'tru',
+			position1: 'den',
+			position2: 'des',
+			position3: 'dru',
+			text1: 'fen',
+			text2: 'fes',
+			text3: 'fru',
 			valid: false,
 			image: null,
 			imageSrc: ''
@@ -149,39 +138,34 @@
 		computed: {
 			loading () {
 				return this.$store.getters.loading
-			},
-			/*isOwner () {
-				return this.ad.ownerId === this.$store.getters.user.id
-			}*/
+			}
 		},
 		methods: {
-			createGame () {
+			createEmployee () {
 				if(this.$refs.form.validate() && this.image) {
-					const game = {
+					const employee = {
 						en: {
-							title: this.title1,
-							description: this.description1,
+							name: this.name1,
+							position: this.position1,
 							text: this.text1
 						},
 						es: {
-							title: this.title2,
-							description: this.description2,
+							name: this.name2,
+							position: this.position2,
 							text: this.text2
 						},
 						ru: {
-							title: this.title3,
-							description: this.description3,
+							name: this.name3,
+							position: this.position3,
 							text: this.text3
 						},
-						url: transliterate(this.title1),
-						date: this.getNow(),
-						promo: this.promo,
+						url: this.transliterate(this.name1),
 						image: this.image
 					}
 					
-					this.$store.dispatch('createGame', game)
+					this.$store.dispatch('createTeam', employee)
 					.then(() => {
-						this.$router.push('/games')
+						this.$router.push('/team')
 					})
 					.catch(() => {})
 				}
@@ -205,10 +189,9 @@
 				const today = new Date()
 				console.log(today)
 				return today.getDate() + '-' + (today.getMonth() + 1 ) + '-' + today.getFullYear()
-			}
-		}
-	}
-			function transliterate(word) {
+			},
+			transliterate (word) {
+				console.log(word)
 				const keys = {
 					'а': 'a', 'б': 'b', 'в': 'v', 'г': 'g', 'д': 'd',
 					'е': 'e', 'ё': 'e', 'ж': 'j', 'з': 'z', 'и': 'i',
@@ -218,6 +201,22 @@
 					'щ': 'shch', 'ы': 'y', 'э': 'e', 'ю': 'u', 'я': 'ya',
 					' ': '-', ':': '', '!': '', '?': '', '(': '', ')': ''
 				}
-				return word.split("").map((char) => keys[char] || char.toLowerCase()).join("");
+				return word.split("").map((char) => keys[char] || char.toLowerCase()).join("") || '-';
 			}
+		}
+	}
+			/*function transliterate(word) {
+				console.log(word)
+				const keys = {
+					'а': 'a', 'б': 'b', 'в': 'v', 'г': 'g', 'д': 'd',
+					'е': 'e', 'ё': 'e', 'ж': 'j', 'з': 'z', 'и': 'i',
+					'к': 'k', 'л': 'l', 'м': 'm', 'н': 'n', 'о': 'o',
+					'п': 'p', 'р': 'r', 'с': 's', 'т': 't', 'у': 'u',
+					'ф': 'f', 'х': 'h', 'ц': 'c', 'ч': 'ch', 'ш': 'sh',
+					'щ': 'shch', 'ы': 'y', 'э': 'e', 'ю': 'u', 'я': 'ya',
+					' ': '-', ':': '', '!': '', '?': '', '(': '', ')': ''
+				}
+				return word.split("").map((char) => keys[char] || char.toLowerCase()).join("") || '-';
+			}*/
 </script>
+

@@ -41,7 +41,7 @@
 </template>
 
 <script>
-	//import EditAdModal from './EditAdModal'
+	//import EditAboutModal from './EditAboutModal'
 	export default {
 		props: ['url'],
 		computed: {

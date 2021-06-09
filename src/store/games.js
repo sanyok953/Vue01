@@ -17,8 +17,8 @@ class Game {
 
 export default {
 	state: {
-		games: [
-			{
+		games: []
+			/*{
 				en: {
 					title: 'First',
 					description: 'First de',
@@ -40,12 +40,27 @@ export default {
 				imageSrc: 'https://pbs.twimg.com/media/CbxjMb7WIAEjY8a.jpg',
 				id: '1'
 			}
-		]
+		]*/
 	},
 	mutations: {
 		createGame (state, payload) {
 			//console.log(payload)
 			state.games.push(payload)
+		},
+		editGame (state, payload) {
+			const ega = state.games.find(ga => {
+				return ga.id === payload.id
+			})
+			
+			ega.en = payload.en,
+			ega.es = payload.es,
+			ega.ru = payload.ru,
+			ega.promo = payload.promo,
+			ega.imageSrc = payload.imageSrc
+			console.log('Local data updated')
+		},
+		loadGames (state, payload) {
+			state.games = payload
 		}
 	},
 	actions: {
@@ -84,10 +99,106 @@ export default {
 				commit('setLoading', false)
 				throw error
 			}
-		}
+		},
+		async editGame ({commit}, payload) {
+			commit('clearError')
+			commit('setLoading', true)
+			//console.log("EDIT ", payload)
+			var imageSrc = payload.imageSrc
+			const image = payload.image
+			try {
+				if(image != null) {
+					const imageExt = image.name.slice(image.name.lastIndexOf('.'))
+					var fd = null
+					
+					await fb.storage().ref().child(`games/${payload.id}${imageExt}`).delete()
+					.then(() => {
+						console.log('DELETED IMAGE ' + `games/${payload.id}${imageExt}`)
+					})
+					
+					/*const fileData = */await fb.storage().ref(`games/${payload.id}${imageExt}`).put(image)
+					.then((e) => {
+						console.log('RELOAD IMAGE ' + `games/${payload.id}${imageExt}`, e)
+						fd = e
+					})
+					
+					imageSrc = await fb.storage().ref().child(fd.ref.fullPath).getDownloadURL()
+					
+					//imageSrc = await fb.storage().ref().child(fileData.ref.fullPath).getDownloadURL()
+				}
+					console.log(imageSrc)
+				
+				await fb.database().ref('games').child(payload.id).update({
+					en: payload.en,
+					es: payload.es,
+					ru: payload.ru,
+					promo: payload.promo,
+					imageSrc: imageSrc
+				}).then(() => {
+					console.log('Remote data updated')
+				})
+				
+				commit('editGame', { // to mutations
+					en: payload.en,
+					es: payload.es,
+					ru: payload.ru,
+					promo: payload.promo,
+					imageSrc: imageSrc,
+					id: payload.id
+				})
+				
+				commit('setLoading', false)
+			} catch (error) {
+				commit('setError', error.message)
+				commit('setLoading', false)
+				throw error
+			}
+		},
+		async fetchGames ({commit}) {
+			commit('clearError')
+			commit('setLoading', true)
+			const resultGames = []
+			
+			try {
+				const fbVal = await fb.database().ref('games').once('value')
+				const gamesb = fbVal.val()
+				
+				Object.keys(gamesb).forEach(key => {
+					const gab = gamesb[key]
+					resultGames.push(
+						new Game(
+							gab.en.title,
+							gab.es.title,
+							gab.ru.title,
+							gab.en.description,
+							gab.es.description,
+							gab.ru.description,
+							gab.en.text,
+							gab.es.text,
+							gab.ru.text,
+							gab.url,
+							gab.date,
+							gab.promo,
+							gab.imageSrc,
+							key
+						)
+					)
+					
+				//console.log(resultNews)
+				
+				})
+				commit('loadGames', resultGames)
+				commit('setLoading', false)
+			} catch (error) {
+				commit('setError', error.message)
+				commit('setLoading', false)
+				throw error
+			}
+		},
 	},
 	getters: {
 		games (state) {
+			//console.log(state.games);
 			return state.games
 		},
 		promoGames (state) {

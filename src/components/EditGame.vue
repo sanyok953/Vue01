@@ -11,7 +11,6 @@
 						name="title1"
 						type="text"
 						v-model="title1"
-						value="nez.en.title"
 						required
 						:rules="[v => !!v || 'TitleEn is required']"
 					></v-text-field>

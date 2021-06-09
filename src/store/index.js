@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import news from './news'
+import team from './team'
 import games from './games'
 import user from './user'
 import shared from './shared'
@@ -15,6 +16,6 @@ export default new Vuex.Store({
 	actions: {
 	},
 	modules: {
-		news, games, user, shared
+		news, team, games, user, shared
 	}
 })

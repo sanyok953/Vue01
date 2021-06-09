@@ -1,74 +1,75 @@
 <template>
 	<v-container>
+		
 		<v-layout row>
 			<v-flex xs12 sm6 offset-sm3>
-				<h1 class="text--secondary mb-3">Edit News</h1>
+				<h1 class="text--secondary mb-3">Edit Team</h1>
 				<v-form v-model="valid" ref="form" validation class="mb-3">
-					<!-- title -->
+					<!-- name -->
 					<v-text-field
-						label="News title EN"
-						name="title1"
+						label="Team name EN"
+						name="name1"
 						type="text"
-						v-model="title1"
+						v-model="name1"
 						required
-						:rules="[v => !!v || 'TitleEn is required']"
+						:rules="[v => !!v || 'NameEn is required']"
 					></v-text-field>
 					<v-text-field
-						label="News title ES"
-						name="title2"
+						label="Team name ES"
+						name="name2"
 						type="text"
-						v-model="title2"
+						v-model="name2"
 						required
-						:rules="[v => !!v || 'TitleEs is required']"
+						:rules="[v => !!v || 'NameEs is required']"
 					></v-text-field>
 					<v-text-field
-						label="News title RU"
-						name="title3"
+						label="Team name RU"
+						name="name3"
 						type="text"
-						v-model="title3"
+						v-model="name3"
 						required
-						:rules="[v => !!v || 'TitleRu is required']"
+						:rules="[v => !!v || 'NameRu is required']"
 					></v-text-field>
-					<!-- description -->
+					<!-- position -->
 					<v-textarea
-						label="News description EN"
-						name="description1"
+						label="Team position EN"
+						name="position1"
 						type="text"
-						v-model="description1"
+						v-model="position1"
 						multi-line
-						:rules="[v => !!v || 'DescriptionEn is required']"
+						:rules="[v => !!v || 'PositionEn is required']"
 					></v-textarea>
 					<v-textarea
-						label="News description ES"
-						name="description2"
+						label="Team position ES"
+						name="position2"
 						type="text"
-						v-model="description2"
+						v-model="position2"
 						multi-line
-						:rules="[v => !!v || 'DescriptionEs is required']"
+						:rules="[v => !!v || 'PositionEs is required']"
 					></v-textarea>
 					<v-textarea
-						label="News description RU"
-						name="description3"
+						label="Team position RU"
+						name="position3"
 						type="text"
-						v-model="description3"
+						v-model="position3"
 						multi-line
-						:rules="[v => !!v || 'DescriptionRu is required']"
+						:rules="[v => !!v || 'PositionRu is required']"
 					></v-textarea>
 					<!-- text -->
-					<h4 class="text--secondary mt-3">News text EN</h4>
+					<h4 class="text--secondary mt-3">Team text EN</h4>
 					<tiptap-vuetify
 						v-model="text1"
 						:extensions="extensions"
 						:toolbar-attributes="{ color: 'primary' }"
 						:rules="[v => !!v || 'TextEn is required']" />
-					<h4 class="text--secondary mt-3">News text ES</h4>
+					<h4 class="text--secondary mt-3">Team text ES</h4>
 					<tiptap-vuetify
 						v-model="text2"
 						:extensions="extensions"
 						:toolbar-attributes="{ color: 'primary' }"
 						:rules="[v => !!v || 'TextEs is required']"
 					/>
-					<h4 class="text--secondary mt-3">News text RU</h4>
+					<h4 class="text--secondary mt-3">Team text RU</h4>
 					<tiptap-vuetify
 						v-model="text3"
 						:extensions="extensions"
@@ -99,25 +100,16 @@
 				
 				<v-layout row class='ml-1'>
 					<v-flex xs12>
-						<v-switch
-							color="primary"
-							label="Add to promo"
-							v-model="promo"
-						></v-switch>
-					</v-flex>
-				</v-layout>
-				<v-layout row class='ml-1'>
-					<v-flex xs12>
 						<v-spacer></v-spacer>
 						<v-btn
 							:loading="loading"
 							:disabled="!valid || !(this.imageSrc.length > 1) || loading"
 							class="success mb-12 mt-3"
-							@click="editNews"
-						>Edit news</v-btn>
+							@click="editTeam"
+						>Edit Team</v-btn>
 					</v-flex>
 				</v-layout>
-				{{ ini(nez) }}
+				{{ ini(teams) }}
 			</v-flex>
 		</v-layout>
 	</v-container>
@@ -157,24 +149,23 @@
 				HardBreak // line break on Shift + Ctrl + Enter
 			],
 			load: false,
-			title1: '',
-			title2: '',
-			title3: '',
-			description1: '',
-			description2: '',
-			description3: '',
+			name1: '',
+			name2: '',
+			name3: '',
+			position1: '',
+			position2: '',
+			position3: '',
 			text1: '',
 			text2: '',
 			text3: '',
-			promo: false,
 			valid: false,
 			image: null,
 			imageSrc: ''
 		}),
 		computed: {
-			nez () {
+			teams () {
 				const ide = this.ide
-				return this.$store.getters.newsById(ide)
+				return this.$store.getters.teamById(ide)
 			},
 			loading () {
 				return this.$store.getters.loading
@@ -184,49 +175,47 @@
 			}*/
 		},
 		methods: {
-			ini (nz) {
+			ini (teams) {
 				if(!this.load) { // Сработает один раз, какого то черта работало несколько при загрузке картинки
-					this.title1 = nz.en.title
-					this.title2 = nz.es.title
-					this.title3 = nz.ru.title
-					this.description1 = nz.en.description
-					this.description2 = nz.es.description
-					this.description3 = nz.ru.description
-					this.text1 = nz.en.text
-					this.text2 = nz.es.text
-					this.text3 = nz.ru.text
-					this.promo = nz.promo
-					this.imageSrc = nz.imageSrc
+					this.name1 = teams.en.name
+					this.name2 = teams.es.name
+					this.name3 = teams.ru.name
+					this.position1 = teams.en.position
+					this.position2 = teams.es.position
+					this.position3 = teams.ru.position
+					this.text1 = teams.en.text
+					this.text2 = teams.es.text
+					this.text3 = teams.ru.text
+					this.imageSrc = teams.imageSrc
 					this.load = true
 				}
 			},
-			editNews () {
+			editTeam () {
 				if(this.$refs.form.validate() && this.imageSrc.length > 1) {
-					const ne = {
+					const team = {
 						en: {
-							title: this.title1,
-							description: this.description1,
+							name: this.name1,
+							position: this.position1,
 							text: this.text1
 						},
 						es: {
-							title: this.title2,
-							description: this.description2,
+							name: this.name2,
+							position: this.position2,
 							text: this.text2
 						},
 						ru: {
-							title: this.title3,
-							description: this.description3,
+							name: this.name3,
+							position: this.position3,
 							text: this.text3
 						},
-						promo: this.promo,
 						imageSrc: this.imageSrc,
 						image: this.image,
 						id: this.ide
 					}
 					
-					this.$store.dispatch('editNews', ne)
+					this.$store.dispatch('editTeam', team)
 					.then(() => {
-						this.$router.push('/news')
+						this.$router.push('/about')
 					})
 					.catch(() => {})
 				}

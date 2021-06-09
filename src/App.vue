@@ -79,7 +79,19 @@
 				</v-navigation-drawer>
 
 				<v-main>
-					<router-view />
+					<div v-if="!loading" class="main-color ml-4 mr-4 pb-4">
+						<router-view />
+					</div>
+					<div v-else class="main-color ml-4 mr-4 pb-4">
+						<v-container>
+							<v-row justify="center" align="center">
+								<div class="text-xs-center mt-5">
+									<v-progress-circular
+										indeterminate :size="100" :width="4" color="purple"></v-progress-circular>
+								</div>
+							</v-row>
+						</v-container>
+					</div>
 				</v-main>
 				
 				<v-snackbar
@@ -130,7 +142,7 @@ export default {
 					{title: this.$t('news'), icon: 'mdi-newspaper-variant', url: '/news'},
 					{title: this.$t('games'), icon: 'mdi-google-controller', url: '/games'},
 					{title: this.$t('about'), icon: 'mdi-account-multiple', url: '/about'},
-					{title: this.$t('newNews'), icon: 'mdi-note-plus', url: '/newNews'},
+					{title: this.$t('newPerson'), icon: 'mdi-note-plus', url: '/newTeam'},
 					{title: this.$t('newGame'), icon: 'mdi-note-plus', url: '/newGame'},
 				]
 			}
@@ -150,6 +162,9 @@ export default {
 		},
 		isUserLoggedIn () {
 			return this.$store.getters.isUserLoggedIn
+		},
+		loading () {
+			return this.$store.getters.loading
 		}
 	},
 	data: () => ({
@@ -195,6 +210,11 @@ export default {
 		background: url("./assets/img/mc.png") repeat;
 	}*/
 
+	.main-color {
+		background:gainsboro;
+		min-height:100%;
+	}
+	
 	.bg {
 		width: 100%;
 		height: 100%;
