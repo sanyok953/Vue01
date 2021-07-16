@@ -1,7 +1,9 @@
 {
   "main": "Inicio",
   "news": "Noticias",
+  "moreNews": "Más noticias",
   "games": "Juegos",
+  "moreGames": "Más juegos",
   "about": "Sobre nosotros",
   "logout": "Salir",
   "login": "Ententar",

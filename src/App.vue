@@ -2,18 +2,32 @@
   <div id="app">
     <v-app id="inspire">
       <v-toolbar dark class="primary">
+        <!-- Mobile menu icon -->
         <v-app-bar-nav-icon
           @click.stop="drawer = !drawer"
           class="hidden-md-and-up"
         ></v-app-bar-nav-icon>
-        <v-toolbar-title>
+        <!-- Site anme and link -->
+        <v-toolbar-title class="hidden-sm-and-down">
           <router-link to="/" tag="span" class="pointer">{{
             $t("title")
           }}</router-link>
         </v-toolbar-title>
 
+        <!-- Theme switch -->
+        <v-switch
+          class="hidden-sm-and-down"
+          v-model="th"
+          hide-details
+          inset
+          :light="th"
+          color="accent"
+          prepend-icon="mdi-theme-light-dark"
+        ></v-switch>
+
         <v-spacer></v-spacer>
-				
+
+        <!-- Desktop menu -->
         <v-toolbar-items class="hidden-sm-and-down">
           <v-btn
             v-for="(link, index) in links"
@@ -30,6 +44,7 @@
           </v-btn>
         </v-toolbar-items>
 
+        <!-- Language change custom template -->
         <template>
           <div
             class="langBut"
@@ -57,6 +72,7 @@
       </v-toolbar>
 
       <v-app id="inspire">
+        <!-- Mobile menu -->
         <v-navigation-drawer v-model="drawer" app temporary>
           <v-list dense>
             <v-list-item
@@ -82,21 +98,34 @@
               </v-list-item-content>
             </v-list-item>
           </v-list>
+          
+          <!-- Theme switch mobile menu -->
+          <v-switch
+            class="mt-1 ml-5 mr-5"
+            v-model="th"
+            hide-details
+            inset
+            :light="th"
+            color="accent"
+            append-icon="mdi-theme-light-dark"
+          ></v-switch>
         </v-navigation-drawer>
 
+        <!-- Routed content -->
         <v-main>
-          <div v-if="!loading" class="main-color ml-4 mr-4 pb-4">
+          <div v-if="!loading" class="background main-color ml-2 mr-2 pb-4">
             <router-view />
           </div>
-          <div v-else class="main-color ml-4 mr-4 pb-4">
+          <!-- Progress, loading -->
+          <div v-else class="background main-color ml-2 mr-2 pb-4"><!-- For custom background -->
             <v-container>
               <v-row justify="center" align="center">
-                <div class="text-xs-center mt-5">
+                <div class="text-xs-center mt-6">
                   <v-progress-circular
                     indeterminate
                     :size="100"
                     :width="4"
-                    color="purple"
+                    color="accent"
                   ></v-progress-circular>
                 </div>
               </v-row>
@@ -104,6 +133,7 @@
           </div>
         </v-main>
 
+        <!-- Show messages 5 sec -->
         <v-snackbar
           :multi-line="true"
           :timeout="5000"
@@ -121,6 +151,7 @@
           </template>
         </v-snackbar>
 
+        <!-- Footer -->
         <v-footer color="primary">
           <span class="white--text">&copy; {{ new Date().getFullYear() }}</span>
         </v-footer>
@@ -196,6 +227,15 @@ export default {
     loading() {
       return this.$store.getters.loading;
     },
+    th: { // Была ошибка просил сеттер. Такое решение.
+      get() {
+        return this.$vuetify.theme.dark
+      },
+      set(value) {
+        return this.$vuetify.theme.dark = value
+      }
+      
+    }
   },
   data: () => ({
     lgmenu: false,
@@ -215,7 +255,7 @@ export default {
     setLocale(locale) {
       this.$i18n.locale = locale;
       this.lgmenu = false;
-      console.log("FF ", this.$router);
+      //console.log("FF ", this.$router);
       localStorage.setItem("lang", locale);
       this.$forceUpdate();
     },
@@ -229,9 +269,14 @@ export default {
   },
   watch: {
     flags: function () {
-      console.log("GG ", this.langs);
+      //console.log("GG ", this.langs);
     },
-  },
+    th: function () {
+      //console.log("TH ", this.th)
+      this.$vuetify.theme.dark = this.th
+      localStorage.setItem("theme", this.th);
+    }
+  }
 };
 </script>
 
@@ -241,7 +286,7 @@ export default {
 	}*/
 
 .main-color {
-  background: gainsboro;
+  /*background: rgb(243, 225, 225);*/
   min-height: 100%;
 }
 

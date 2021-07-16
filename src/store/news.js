@@ -206,12 +206,17 @@ export default {
 	},
 	getters: {
 		news (state) {
+			// get all
 			return state.news
 		},
 		promoNews (state) {
 			return state.news.filter(ne => {
 				return ne.promo === true
 			})
+		},
+		news4 (state) {
+			// 4 elements
+			return state.news.slice(0, 4)
 		},
 		newsById (state) {
 			return newsId => {

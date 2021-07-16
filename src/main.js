@@ -46,6 +46,7 @@ new Vue({
 			}
 		})
 		
+    this.$vuetify.theme.dark = localStorage.getItem("theme") || false // Тема по умолчанию
 		this.$store.dispatch('fetchNews')
 		this.$store.dispatch('fetchGames')
 		this.$store.dispatch('fetchTeam')

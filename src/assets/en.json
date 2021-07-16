@@ -1,7 +1,9 @@
 {
   "main": "Main",
   "news": "News",
+  "moreNews": "More news",
   "games": "Games",
+  "moreGames": "More games",
   "about": "About",
   "logout": "Logout",
   "login": "Login",

@@ -11,7 +11,7 @@
 				>
 					<v-layout row>
 						<v-flex xs4>
-							<v-img class="ml-2 left-radius"
+							<v-img class="ml-2 rounded-tl"
 								:src="ne.imageSrc"
 								height="144px"
 							></v-img>
@@ -20,7 +20,7 @@
 						<v-flex xs8>
 							<v-card-text primary-title>
 								<h2 class="text--primary">{{ ne[langs].title }}</h2>
-								<div>{{ ne[langs].description}}</div>
+								<div class="mb-9">{{ ne[langs].description}}</div>
 								<!--<div class="tiptap-vuetify-editor__content" v-html="ne[langs].text"></div>-->
 							</v-card-text>
 							<div class="butt">

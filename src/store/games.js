@@ -198,8 +198,12 @@ export default {
 	},
 	getters: {
 		games (state) {
-			//console.log(state.games);
+			// get all
 			return state.games
+		},
+		games2 (state) {
+			// 2 elements
+			return state.games.slice(0, 2)
 		},
 		promoGames (state) {
 			return state.games.filter(ga => {

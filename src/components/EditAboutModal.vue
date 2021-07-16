@@ -2,7 +2,7 @@
 	<v-dialog width="400px" v-model="modal">
 		
 		<template v-slot:activator="{ on }">
-			<v-btn class="warning" text v-on="on">Edit</v-btn>
+			<v-btn class="warning rounded-0" text v-on="on">{{ $t('edit') }}</v-btn>
 		</template>
 		<v-card>
 			<v-container>
@@ -45,7 +45,7 @@
 							<v-spacer></v-spacer>
 							<v-btn text @click="onCancel">Cancel</v-btn>
 							<v-btn
-								class="primary"
+								class="accent"
 								text
 								@click="onSave"
 								:loading="loading"

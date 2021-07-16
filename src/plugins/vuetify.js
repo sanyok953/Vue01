@@ -17,24 +17,29 @@ export default new Vuetify({
 				primary: colors.lightGreen.base,
 				secondary: colors.lime.base,
 				accent: colors.deepOrange.base,
-				error: colors.pink.base,
-				warning: colors.red.base,
-				info: colors.cyan.base,
-				success: colors.teal.base,
-				background: colors.purple.lighten3
+				error: colors.red.darken1,
+				warning: colors.orange.darken1,
+				info: colors.cyan.lighten4,
+				success: colors.green.lighten1,
+				background: colors.grey.lighten5
 			},
 			dark: {
-				primary: colors.lightGreen.base,
-				secondary: colors.lime.base,
-				accent: colors.deepOrange.base,
-				error: colors.pink.base,
-				warning: colors.red.base,
-				info: colors.cyan.base,
-				success: colors.teal.base,
-				background: colors.purple.lighten3
+				primary: colors.indigo.darken4,
+				secondary: colors.indigo.darken1,
+				accent: colors.pink.accent3,
+				error: colors.red.darken4,
+				warning: colors.orange.darken4,
+				info: colors.cyan.darken4,
+				success: colors.green.darken4,
+				background: colors.grey.darken3
 			}
 		}
-	}
+	},
+  watch: {
+    theme: function () {
+      console.log("TH ", this.theme.dark);
+    }
+  }
 
 	/*lang: {
 		locales: { ru, es, en },
