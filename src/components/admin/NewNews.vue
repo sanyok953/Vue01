@@ -3,61 +3,61 @@
 		
 		<v-layout row>
 			<v-flex xs12 sm6 offset-sm3>
-				<h1 class="text--secondary mb-3">Create New Employee</h1>
+				<h1 class="text--secondary mb-3">Create New News</h1>
 				<v-form v-model="valid" ref="form" validation class="mb-3">
-					<!-- name -->
+					<!-- title -->
 					<v-text-field
-						label="Employee name EN"
-						name="name1"
+						label="News title EN"
+						name="title1"
 						type="text"
-						v-model="name1"
+						v-model="title1"
 						required
-						:rules="[v => !!v || 'NameEn is required']"
+						:rules="[v => !!v || 'TitleEn is required']"
 					></v-text-field>
 					<v-text-field
-						label="Employee name ES"
-						name="name2"
+						label="News title ES"
+						name="title2"
 						type="text"
-						v-model="name2"
+						v-model="title2"
 						required
-						:rules="[v => !!v || 'NameEs is required']"
+						:rules="[v => !!v || 'TitleEs is required']"
 					></v-text-field>
 					<v-text-field
-						label="Employee name RU"
-						name="name3"
+						label="News title RU"
+						name="title3"
 						type="text"
-						v-model="name3"
+						v-model="title3"
 						required
-						:rules="[v => !!v || 'NameRu is required']"
+						:rules="[v => !!v || 'TitleRu is required']"
 					></v-text-field>
-					<!-- position -->
+					<!-- description -->
 					<v-textarea
-						label="Employee position EN"
-						name="position1"
+						label="News description EN"
+						name="description1"
 						type="text"
-						v-model="position1"
+						v-model="description1"
 						multi-line
-						:rules="[v => !!v || 'PositionEn is required']"
+						:rules="[v => !!v || 'DescriptionEn is required']"
 					></v-textarea>
 					<v-textarea
-						label="Employee position ES"
-						name="position2"
+						label="News description ES"
+						name="description2"
 						type="text"
-						v-model="position2"
+						v-model="description2"
 						multi-line
-						:rules="[v => !!v || 'PositionEs is required']"
+						:rules="[v => !!v || 'DescriptionEs is required']"
 					></v-textarea>
 					<v-textarea
-						label="Employee position RU"
-						name="position3"
+						label="News description RU"
+						name="description3"
 						type="text"
-						v-model="position3"
+						v-model="description3"
 						multi-line
-						:rules="[v => !!v || 'PositionRu is required']"
+						:rules="[v => !!v || 'DescriptionRu is required']"
 					></v-textarea>
 					<!-- text -->
 					<v-textarea
-						label="Employee text EN"
+						label="News text EN"
 						name="text1"
 						type="text"
 						v-model="text1"
@@ -65,7 +65,7 @@
 						:rules="[v => !!v || 'TextEn is required']"
 					></v-textarea>
 					<v-textarea
-						label="Employee text ES"
+						label="News text ES"
 						name="text2"
 						type="text"
 						v-model="text2"
@@ -73,7 +73,7 @@
 						:rules="[v => !!v || 'TextEs is required']"
 					></v-textarea>
 					<v-textarea
-						label="Employee text RU"
+						label="News text RU"
 						name="text3"
 						type="text"
 						v-model="text3"
@@ -98,7 +98,17 @@
 				
 				<v-layout row>
 					<v-flex xs12>
-						<img :src="imageSrc" style="max-height: 100px;" v-if="imageSrc" />
+						<img :src="imageSrc" style="max-height: 100px" v-if="imageSrc" />
+					</v-flex>
+				</v-layout>
+				
+				<v-layout row>
+					<v-flex xs12>
+						<v-switch
+							color="primary"
+							label="Add to promo"
+							v-model="promo"
+						></v-switch>
 					</v-flex>
 				</v-layout>
 				
@@ -109,8 +119,8 @@
 							:loading="loading"
 							:disabled="!valid || !image || loading"
 							class="success mb-4"
-							@click="createEmployee"
-						>Create Employee</v-btn>
+							@click="createNews"
+						>Create news</v-btn>
 					</v-flex>
 				</v-layout>
 			</v-flex>
@@ -120,17 +130,24 @@
 
 <script>
 	export default {
+		name: "newNews",
+		metaInfo() {
+			return {
+				title: `New news | Atlantic games`,
+			};
+		},
 		data: () => ({
 			edit: false,
-			name1: 'ten',
-			name2: 'tes',
-			name3: 'tru',
-			position1: 'den',
-			position2: 'des',
-			position3: 'dru',
-			text1: 'fen',
-			text2: 'fes',
-			text3: 'fru',
+			title1: '',
+			title2: '',
+			title3: '',
+			description1: '',
+			description2: '',
+			description3: '',
+			text1: '',
+			text2: '',
+			text3: '',
+			promo: false,
 			valid: false,
 			image: null,
 			imageSrc: ''
@@ -138,34 +155,39 @@
 		computed: {
 			loading () {
 				return this.$store.getters.loading
-			}
+			},
+			/*isOwner () {
+				return this.ad.ownerId === this.$store.getters.user.id
+			}*/
 		},
 		methods: {
-			createEmployee () {
+			createNews () {
 				if(this.$refs.form.validate() && this.image) {
-					const employee = {
+					const ne = {
 						en: {
-							name: this.name1,
-							position: this.position1,
+							title: this.title1,
+							description: this.description1,
 							text: this.text1
 						},
 						es: {
-							name: this.name2,
-							position: this.position2,
+							title: this.title2,
+							description: this.description2,
 							text: this.text2
 						},
 						ru: {
-							name: this.name3,
-							position: this.position3,
+							title: this.title3,
+							description: this.description3,
 							text: this.text3
 						},
-						url: this.transliterate(this.name1),
+						url: transliterate(this.title1),
+						date: '12-12-2022',
+						promo: this.promo,
 						image: this.image
 					}
 					
-					this.$store.dispatch('createTeam', employee)
+					this.$store.dispatch('createNews', ne)
 					.then(() => {
-						this.$router.push('/team')
+						this.$router.push('/news')
 					})
 					.catch(() => {})
 				}
@@ -184,29 +206,10 @@
 				}
 				
 				reader.readAsDataURL(file)
-			},
-			getNow () {
-				const today = new Date()
-				console.log(today)
-				return today.getDate() + '-' + (today.getMonth() + 1 ) + '-' + today.getFullYear()
-			},
-			transliterate (word) {
-				console.log(word)
-				const keys = {
-					'а': 'a', 'б': 'b', 'в': 'v', 'г': 'g', 'д': 'd',
-					'е': 'e', 'ё': 'e', 'ж': 'j', 'з': 'z', 'и': 'i',
-					'к': 'k', 'л': 'l', 'м': 'm', 'н': 'n', 'о': 'o',
-					'п': 'p', 'р': 'r', 'с': 's', 'т': 't', 'у': 'u',
-					'ф': 'f', 'х': 'h', 'ц': 'c', 'ч': 'ch', 'ш': 'sh',
-					'щ': 'shch', 'ы': 'y', 'э': 'e', 'ю': 'u', 'я': 'ya',
-					' ': '-', ':': '', '!': '', '?': '', '(': '', ')': ''
-				}
-				return word.split("").map((char) => keys[char] || char.toLowerCase()).join("") || '-';
 			}
 		}
 	}
-			/*function transliterate(word) {
-				console.log(word)
+			function transliterate(word) {
 				const keys = {
 					'а': 'a', 'б': 'b', 'в': 'v', 'г': 'g', 'д': 'd',
 					'е': 'e', 'ё': 'e', 'ж': 'j', 'з': 'z', 'и': 'i',
@@ -216,7 +219,6 @@
 					'щ': 'shch', 'ы': 'y', 'э': 'e', 'ю': 'u', 'я': 'ya',
 					' ': '-', ':': '', '!': '', '?': '', '(': '', ')': ''
 				}
-				return word.split("").map((char) => keys[char] || char.toLowerCase()).join("") || '-';
-			}*/
+				return word.split("").map((char) => keys[char] || char.toLowerCase()).join("");
+			}
 </script>
-

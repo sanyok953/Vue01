@@ -3,7 +3,7 @@ import 'firebase/database'
 import 'firebase/storage'
 
 class Game {
-	constructor (ten, tes, tru, den, des, dru, teen, tees, teru, url, date, promo = false, imageSrc = '', id = null) {
+	constructor (ten, tes, tru, den, des, dru, teen, tees, teru, url, date, promo = false, imageSrc = '', link = '', id = null) {
 		this.en = {title: ten, description: den, text: teen}
 		this.es = {title: tes, description: des, text: tees}
 		this.ru = {title: tru, description: dru, text: teru}
@@ -11,6 +11,7 @@ class Game {
 		this.date = date
 		this.promo = promo
 		this.imageSrc = imageSrc
+		this.link = link
 		this.id = id
 	}
 }
@@ -18,29 +19,6 @@ class Game {
 export default {
 	state: {
 		games: []
-			/*{
-				en: {
-					title: 'First',
-					description: 'First de',
-					text: 'First txt'
-				},
-				es: {
-					title: 'Primer',
-					description: 'Primer de',
-					text: 'Primer txt'
-				},
-				ru: {
-					title: 'Первый',
-					description: 'Первый de',
-					text: 'Первый txt'
-				},
-				url: 'test1',
-				date: '22-03-2020',
-				promo: false,
-				imageSrc: 'https://pbs.twimg.com/media/CbxjMb7WIAEjY8a.jpg',
-				id: '1'
-			}
-		]*/
 	},
 	mutations: {
 		createGame (state, payload) {
@@ -56,6 +34,7 @@ export default {
 			ega.es = payload.es,
 			ega.ru = payload.ru,
 			ega.promo = payload.promo,
+			ega.link = payload.link,
 			ega.imageSrc = payload.imageSrc
 			console.log('Local data updated')
 		},
@@ -75,7 +54,7 @@ export default {
 					payload.en.title, payload.es.title, payload.ru.title,
 					payload.en.description, payload.es.description, payload.ru.description,
 					payload.en.text, payload.es.text, payload.ru.text,
-					payload.url, payload.date, payload.promo, '' //payload.imageSrc
+					payload.url, payload.date, payload.promo, '', payload.link //payload.imageSrc
 				)
 				
 				const game = await fb.database().ref('games').push(newGame)
@@ -118,22 +97,24 @@ export default {
 					
 					/*const fileData = */await fb.storage().ref(`games/${payload.id}${imageExt}`).put(image)
 					.then((e) => {
-						console.log('RELOAD IMAGE ' + `games/${payload.id}${imageExt}`, e)
+						console.log('RELOAD IMAGE ' + `games/${payload.id}${imageExt}`, e, imageExt)
 						fd = e
 					})
 					
 					imageSrc = await fb.storage().ref().child(fd.ref.fullPath).getDownloadURL()
 					
+					
 					//imageSrc = await fb.storage().ref().child(fileData.ref.fullPath).getDownloadURL()
 				}
-					console.log(imageSrc)
+					console.log(imageSrc, payload)
 				
 				await fb.database().ref('games').child(payload.id).update({
 					en: payload.en,
 					es: payload.es,
 					ru: payload.ru,
 					promo: payload.promo,
-					imageSrc: imageSrc
+					imageSrc: imageSrc,
+					link: payload.link
 				}).then(() => {
 					console.log('Remote data updated')
 				})
@@ -144,6 +125,7 @@ export default {
 					ru: payload.ru,
 					promo: payload.promo,
 					imageSrc: imageSrc,
+					link: payload.link,
 					id: payload.id
 				})
 				
@@ -180,6 +162,7 @@ export default {
 							gab.date,
 							gab.promo,
 							gab.imageSrc,
+							gab.link,
 							key
 						)
 					)

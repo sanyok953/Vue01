@@ -9,26 +9,26 @@
         ></v-app-bar-nav-icon>
         <!-- Site anme and link -->
         <v-toolbar-title class="hidden-sm-and-down">
-          <router-link to="/" tag="span" class="pointer">{{
-            $t("title")
-          }}</router-link>
+          <router-link to="/" tag="span" class="pointer">ATLANTIC GAMES</router-link>
         </v-toolbar-title>
-
-        <!-- Theme switch -->
-        <v-switch
-          class="hidden-sm-and-down"
-          v-model="th"
-          hide-details
-          inset
-          :light="th"
-          color="accent"
-          prepend-icon="mdi-theme-light-dark"
-        ></v-switch>
 
         <v-spacer></v-spacer>
 
         <!-- Desktop menu -->
         <v-toolbar-items class="hidden-sm-and-down">
+          
+
+          <!-- Theme switch -->
+          <v-switch
+            class="my-5 mx-2"
+            v-model="th"
+            hide-details
+            inset
+            :light="th"
+            color="accent"
+            prepend-icon="mdi-theme-light-dark"
+          ></v-switch>
+
           <v-btn
             v-for="(link, index) in links"
             :key="link.title"
@@ -98,7 +98,7 @@
               </v-list-item-content>
             </v-list-item>
           </v-list>
-          
+
           <!-- Theme switch mobile menu -->
           <v-switch
             class="mt-1 ml-5 mr-5"
@@ -117,7 +117,8 @@
             <router-view />
           </div>
           <!-- Progress, loading -->
-          <div v-else class="background main-color ml-2 mr-2 pb-4"><!-- For custom background -->
+          <div v-else class="background main-color ml-2 mr-2 pb-4">
+            <!-- For custom background -->
             <v-container>
               <v-row justify="center" align="center">
                 <div class="text-xs-center mt-6">
@@ -153,7 +154,7 @@
 
         <!-- Footer -->
         <v-footer color="primary">
-          <span class="white--text">&copy; {{ new Date().getFullYear() }}</span>
+          <span class="white--text">Atlantic Games &copy; {{ new Date().getFullYear() }}</span>
         </v-footer>
       </v-app>
     </v-app>
@@ -186,13 +187,7 @@ export default {
             title: this.$t("about"),
             icon: "mdi-account-multiple",
             url: "/about",
-          },
-          {
-            title: this.$t("newPerson"),
-            icon: "mdi-note-plus",
-            url: "/newTeam",
-          },
-          { title: this.$t("newGame"), icon: "mdi-note-plus", url: "/newGame" },
+          }
         ];
       }
       return [
@@ -227,15 +222,15 @@ export default {
     loading() {
       return this.$store.getters.loading;
     },
-    th: { // Была ошибка просил сеттер. Такое решение.
+    th: {
+      // Была ошибка просил сеттер. Такое решение.
       get() {
-        return this.$vuetify.theme.dark
+        return this.$vuetify.theme.dark;
       },
       set(value) {
-        return this.$vuetify.theme.dark = value
-      }
-      
-    }
+        return (this.$vuetify.theme.dark = value);
+      },
+    },
   },
   data: () => ({
     lgmenu: false,
@@ -272,11 +267,12 @@ export default {
       //console.log("GG ", this.langs);
     },
     th: function () {
-      //console.log("TH ", this.th)
-      this.$vuetify.theme.dark = this.th
+      //console.log("THW ", this.th)
+      this.$vuetify.theme.dark = this.th;
       localStorage.setItem("theme", this.th);
-    }
-  }
+      this.$forceUpdate();
+    },
+  },
 };
 </script>
 

@@ -1,5 +1,5 @@
 {
-  "main": "Main",
+  "main": "Homepage",
   "news": "News",
   "moreNews": "More news",
   "games": "Games",
@@ -9,10 +9,21 @@
   "login": "Login",
   "title": "Application",
   "open": "Open",
+  "download": "Download",
   "newNews": "Create news",
   "newGame": "Add game",
   "newPerson": "Add person",
   "read": "Read",
+  "more": "More",
   "edit": "Edit",
-  "ourTeam": "Our team"
+  "comments": "Comments",
+  "ourTeam": "Our team",
+  "p404": "Page not found",
+
+  "mainT": "Homepage news, games, our team",
+  "allNewsT": "All the news",
+  "allGamesT": "All the games",
+  "gameT": "Game",
+  "newsT": "News",
+  "aboutT": "About | Out team"
 }

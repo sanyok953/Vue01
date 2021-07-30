@@ -3,12 +3,13 @@ import 'firebase/database'
 import 'firebase/storage'
 
 class Team {
-	constructor (nen, nes, nru, pen, pes, pru, ten, tes, tru, url, imageSrc = '', id = null) {
+	constructor (nen, nes, nru, pen, pes, pru, ten, tes, tru, url, imageSrc = '', links = {}, id = null) {
 		this.en = {name: nen, position: pen, text: ten}
 		this.es = {name: nes, position: pes, text: tes}
 		this.ru = {name: nru, position: pru, text: tru}
 		this.url = url
 		this.imageSrc = imageSrc
+		this.links = links
 		this.id = id
 	}
 }
@@ -44,7 +45,8 @@ export default {
 			ete.en = payload.en,
 			ete.es = payload.es,
 			ete.ru = payload.ru,
-			ete.imageSrc = payload.imageSrc
+			ete.imageSrc = payload.imageSrc,
+			ete.links = payload.links
 			console.log('Local data updated')
 		},
 		loadTeam (state, payload) {
@@ -182,7 +184,8 @@ export default {
 					en: payload.en,
 					es: payload.es,
 					ru: payload.ru,
-					imageSrc: imageSrc
+					imageSrc: imageSrc,
+					links: payload.links
 				}).then(() => {
 					console.log('Remote data updated')
 				})
@@ -192,6 +195,7 @@ export default {
 					es: payload.es,
 					ru: payload.ru,
 					imageSrc: imageSrc,
+					links:payload.links,
 					id: payload.id
 				})
 				
@@ -226,11 +230,12 @@ export default {
 							teb.ru.text,
 							teb.url,
 							teb.imageSrc,
+							teb.links,
 							key
 						)
 					)
 					
-				//console.log(resultNews)
+				//console.log(resultTeam)
 				
 				})
 				commit('loadTeam', resultTeam)
@@ -279,20 +284,22 @@ export default {
 		},
 		teamShort (state) {
 			const coun = 200
+			let tc = state.team
+			let te = tc.slice()
 			
-			for(var i = 0; i < state.team.length && i < 4; i ++) {
-				state.team[i].en.text = state.team[i].en.text.replace(/<\/?[^>]+>/g,' ')
-				state.team[i].es.text = state.team[i].es.text.replace(/<\/?[^>]+>/g,' ')
-				state.team[i].ru.text = state.team[i].ru.text.replace(/<\/?[^>]+>/g,' ')
+			for(var i = 0; i < te.length && i < 4; i ++) {
+				te[i].en.text = tc[i].en.text.replace(/<\/?[^>]+>/g,' ')
+				te[i].es.text = tc[i].es.text.replace(/<\/?[^>]+>/g,' ')
+				te[i].ru.text = tc[i].ru.text.replace(/<\/?[^>]+>/g,' ')
 					
-				if(state.team[i].en.text.length > coun)
-					state.team[i].en.text = state.team[i].en.text.slice(0, coun) + "..."
-				if(state.team[i].es.text.length > coun)
-					state.team[i].es.text = state.team[i].es.text.slice(0, coun) + "..."
-				if(state.team[i].ru.text.length > coun)
-					state.team[i].ru.text = state.team[i].ru.text.slice(0, coun) + "..."
+				if(te[i].en.text.length > coun)
+					te[i].en.text = tc[i].en.text.slice(0, coun) + "..."
+				if(te[i].es.text.length > coun)
+					te[i].es.text = tc[i].es.text.slice(0, coun) + "..."
+				if(te[i].ru.text.length > coun)
+					te[i].ru.text = tc[i].ru.text.slice(0, coun) + "..."
 			}
-			return state.team
+			return te
 		},
 		getAbout (state) {
 			return state.about[0]

@@ -9,10 +9,21 @@
   "login": "Ententar",
   "title": "La aplicacion",
   "open": "Abrir",
+  "download": "Descargar",
   "newNews": "Crear news",
   "newGame": "Agregar juego",
   "newPerson": "Agregar persona",
   "read": "Lee",
+  "more": "Más",
   "edit": "Editar",
-  "ourTeam": "Nuestro equipo"
+  "comments": "Comentarios",
+  "ourTeam": "Nuestro equipo",
+  "p404": "Página no encontrada",
+
+  "mainT": "Inicio noticias, juegos, nuestro equipo",
+  "allNewsT": "Tadas las noticias",
+  "allGamesT": "Todos los juegos",
+  "gameT": "Juego",
+  "newsT": "Noticias",
+  "aboutT": "Sobre nosotros | Nuestro equipo"
 }

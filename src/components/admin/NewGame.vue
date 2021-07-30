@@ -1,12 +1,13 @@
 <template>
 	<v-container>
+		
 		<v-layout row>
 			<v-flex xs12 sm6 offset-sm3>
-				<h1 class="text--secondary mb-3">Edit News</h1>
+				<h1 class="text--secondary mb-3">Create New Game</h1>
 				<v-form v-model="valid" ref="form" validation class="mb-3">
 					<!-- title -->
 					<v-text-field
-						label="News title EN"
+						label="Game title EN"
 						name="title1"
 						type="text"
 						v-model="title1"
@@ -14,7 +15,7 @@
 						:rules="[v => !!v || 'TitleEn is required']"
 					></v-text-field>
 					<v-text-field
-						label="News title ES"
+						label="Game title ES"
 						name="title2"
 						type="text"
 						v-model="title2"
@@ -22,7 +23,7 @@
 						:rules="[v => !!v || 'TitleEs is required']"
 					></v-text-field>
 					<v-text-field
-						label="News title RU"
+						label="Game title RU"
 						name="title3"
 						type="text"
 						v-model="title3"
@@ -31,7 +32,7 @@
 					></v-text-field>
 					<!-- description -->
 					<v-textarea
-						label="News description EN"
+						label="Game description EN"
 						name="description1"
 						type="text"
 						v-model="description1"
@@ -39,7 +40,7 @@
 						:rules="[v => !!v || 'DescriptionEn is required']"
 					></v-textarea>
 					<v-textarea
-						label="News description ES"
+						label="Game description ES"
 						name="description2"
 						type="text"
 						v-model="description2"
@@ -47,37 +48,48 @@
 						:rules="[v => !!v || 'DescriptionEs is required']"
 					></v-textarea>
 					<v-textarea
-						label="News description RU"
+						label="Game description RU"
 						name="description3"
 						type="text"
 						v-model="description3"
 						multi-line
 						:rules="[v => !!v || 'DescriptionRu is required']"
 					></v-textarea>
+					<!-- link -->
+					<v-text-field
+						label="Game link"
+						name="link"
+						type="text"
+						v-model="link"
+					></v-text-field>
 					<!-- text -->
-					<h4 class="text--secondary mt-3">News text EN</h4>
-					<tiptap-vuetify
+					<v-textarea
+						label="Game text EN"
+						name="text1"
+						type="text"
 						v-model="text1"
-						:extensions="extensions"
-						:toolbar-attributes="{ color: 'primary' }"
-						:rules="[v => !!v || 'TextEn is required']" />
-					<h4 class="text--secondary mt-3">News text ES</h4>
-					<tiptap-vuetify
+						multi-line
+						:rules="[v => !!v || 'TextEn is required']"
+					></v-textarea>
+					<v-textarea
+						label="Game text ES"
+						name="text2"
+						type="text"
 						v-model="text2"
-						:extensions="extensions"
-						:toolbar-attributes="{ color: 'primary' }"
+						multi-line
 						:rules="[v => !!v || 'TextEs is required']"
-					/>
-					<h4 class="text--secondary mt-3">News text RU</h4>
-					<tiptap-vuetify
+					></v-textarea>
+					<v-textarea
+						label="Game text RU"
+						name="text3"
+						type="text"
 						v-model="text3"
-						:extensions="extensions"
-						:toolbar-attributes="{ color: 'primary' }"
+						multi-line
 						:rules="[v => !!v || 'TextRu is required']"
-					/>
+					></v-textarea>
 				</v-form>
-				<h4 class="text--secondary mt-3">Load Image</h4>
-				<v-layout row class="mb-3 mt-2 ml-1">
+				
+				<v-layout row class="mb-3 mt-2">
 					<v-flex xs12>
 						<v-btn
 							class="warning"
@@ -91,13 +103,13 @@
 					</v-flex>
 				</v-layout>
 				
-				<v-layout row class='ml-1'>
+				<v-layout row>
 					<v-flex xs12>
 						<img :src="imageSrc" style="max-height: 100px" v-if="imageSrc" />
 					</v-flex>
 				</v-layout>
 				
-				<v-layout row class='ml-1'>
+				<v-layout row>
 					<v-flex xs12>
 						<v-switch
 							color="primary"
@@ -106,63 +118,40 @@
 						></v-switch>
 					</v-flex>
 				</v-layout>
-				<v-layout row class='ml-1'>
+				
+				<v-layout row>
 					<v-flex xs12>
 						<v-spacer></v-spacer>
 						<v-btn
 							:loading="loading"
-							:disabled="!valid || !(this.imageSrc.length > 1) || loading"
-							class="success mb-12 mt-3"
-							@click="editNews"
-						>Edit news</v-btn>
+							:disabled="!valid || !image || loading"
+							class="success mb-4"
+							@click="createGame"
+						>Create Game</v-btn>
 					</v-flex>
 				</v-layout>
-				{{ ini(nez) }}
 			</v-flex>
 		</v-layout>
 	</v-container>
 </template>
 
 <script>
-	import { TiptapVuetify, Heading, Bold, Italic, Strike, Underline, Code, Paragraph, BulletList, OrderedList, ListItem, Link, Blockquote, HardBreak, HorizontalRule, History, Image } from 'tiptap-vuetify'
 	export default {
-		props: ['ide'],
-		components: { TiptapVuetify },
+		name: "newGame",
+		metaInfo() {
+			return {
+				title: `New game | Atlantic games`,
+			};
+		},
 		data: () => ({
-			extensions: [
-				History,
-				Blockquote,
-				Link,
-				Underline,
-				Strike,
-				Italic,
-				ListItem, // if you need to use a list (BulletList, OrderedList)
-				BulletList,
-				OrderedList,
-				Image,
-				[
-					Heading,
-					{
-						// Options that fall into the tiptap's extension
-						options: {
-							levels: [1, 2, 3]
-						}
-					}
-				],
-				Bold,
-				Link,
-				Code,
-				HorizontalRule,
-				Paragraph,
-				HardBreak // line break on Shift + Ctrl + Enter
-			],
-			load: false,
+			edit: false,
 			title1: '',
 			title2: '',
 			title3: '',
 			description1: '',
 			description2: '',
 			description3: '',
+			link: '',
 			text1: '',
 			text2: '',
 			text3: '',
@@ -172,10 +161,6 @@
 			imageSrc: ''
 		}),
 		computed: {
-			nez () {
-				const ide = this.ide
-				return this.$store.getters.newsById(ide)
-			},
 			loading () {
 				return this.$store.getters.loading
 			},
@@ -184,25 +169,9 @@
 			}*/
 		},
 		methods: {
-			ini (nz) {
-				if(!this.load) { // Сработает один раз, какого то черта работало несколько при загрузке картинки
-					this.title1 = nz.en.title
-					this.title2 = nz.es.title
-					this.title3 = nz.ru.title
-					this.description1 = nz.en.description
-					this.description2 = nz.es.description
-					this.description3 = nz.ru.description
-					this.text1 = nz.en.text
-					this.text2 = nz.es.text
-					this.text3 = nz.ru.text
-					this.promo = nz.promo
-					this.imageSrc = nz.imageSrc
-					this.load = true
-				}
-			},
-			editNews () {
-				if(this.$refs.form.validate() && this.imageSrc.length > 1) {
-					const ne = {
+			createGame () {
+				if(this.$refs.form.validate() && this.image) {
+					const game = {
 						en: {
 							title: this.title1,
 							description: this.description1,
@@ -218,15 +187,16 @@
 							description: this.description3,
 							text: this.text3
 						},
+						url: transliterate(this.title1),
+						date: this.getNow(),
 						promo: this.promo,
-						imageSrc: this.imageSrc,
 						image: this.image,
-						id: this.ide
+						link: this.link
 					}
 					
-					this.$store.dispatch('editNews', ne)
+					this.$store.dispatch('createGame', game)
 					.then(() => {
-						this.$router.push('/news')
+						this.$router.push('/games')
 					})
 					.catch(() => {})
 				}
@@ -235,22 +205,34 @@
 				this.$refs.fileInput.click()
 			},
 			onFileChange (event) {
-				this.imageSrc = ''
 				const file = event.target.files[0]
-				//console.log(event)
+				
 				const reader = new FileReader()
 				reader.onload = () => {
-					this.image = file
 					this.imageSrc = reader.result
-					//console.log("CH ", this.imageSrc, this.image, reader)
+					this.image = file
+					//console.log(e, this.imageSrc, this.image)
 				}
+				
 				reader.readAsDataURL(file)
-			}
-		},
-		watch: {
-			imageSrc: function() {
-				console.log("imageSrc changed ", this.imageSrc)
+			},
+			getNow () {
+				const today = new Date()
+				console.log(today)
+				return ('0' + today.getDate()).slice(-2) + '-' + ('0' + (today.getMonth() + 1)).slice(-2) + '-' + today.getFullYear()
 			}
 		}
 	}
+			function transliterate(word) {
+				const keys = {
+					'а': 'a', 'б': 'b', 'в': 'v', 'г': 'g', 'д': 'd',
+					'е': 'e', 'ё': 'e', 'ж': 'j', 'з': 'z', 'и': 'i',
+					'к': 'k', 'л': 'l', 'м': 'm', 'н': 'n', 'о': 'o',
+					'п': 'p', 'р': 'r', 'с': 's', 'т': 't', 'у': 'u',
+					'ф': 'f', 'х': 'h', 'ц': 'c', 'ч': 'ch', 'ш': 'sh',
+					'щ': 'shch', 'ы': 'y', 'э': 'e', 'ю': 'u', 'я': 'ya',
+					' ': '-', ':': '', '!': '', '?': '', '(': '', ')': ''
+				}
+				return word.split("").map((char) => keys[char] || char.toLowerCase()).join("");
+			}
 </script>

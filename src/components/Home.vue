@@ -32,7 +32,7 @@
             <v-card-subtitle>{{ ne.date }}</v-card-subtitle>
             <v-card-text>
               <div class="text--primary">
-                {{ ne[langs].description }}
+                {{ getShort(ne[langs].text) }}
               </div>
             </v-card-text>
             <v-spacer></v-spacer>
@@ -42,13 +42,13 @@
               <v-btn
                 v-if="isUserLoggedIn"
                 text
-                class="warning rounded-0 textreal"
+                class="warning rounded-0 textreal mb-1"
                 :to="'/editNews/' + ne.id"
                 >{{ $t("edit") }}</v-btn
               >
               <v-btn
                 text
-                class="accent rounded-0 textreal"
+                class="accent rounded-0 textreal mb-1"
                 :to="'/newsFull/' + ne.url"
                 >{{ $t("open") }}</v-btn
               >
@@ -57,9 +57,20 @@
         </v-flex>
       </v-layout>
       <v-col class="text-center" cols="12">
-        <v-btn v-if="4 in this.$store.getters.news" text class="accent rounded-0 textreal mt-4" :to="'/news'">{{
-          $t("moreNews")
-        }}</v-btn>
+        <v-btn
+          v-if="4 in this.$store.getters.news"
+          text
+          class="accent rounded-0 textreal mt-4"
+          :to="'/news'"
+          >{{ $t("moreNews") }}</v-btn
+        >
+        <v-btn
+          v-if="isUserLoggedIn"
+          text
+          class="accent rounded-0 textreal mt-4"
+          :to="'/newNews'"
+          >{{ $t("newNews") }}</v-btn
+        >
       </v-col>
     </v-container>
 
@@ -69,7 +80,15 @@
 
     <v-container fluid>
       <v-layout row wrap>
-        <v-flex xs12 sm6 md6 lg4 v-for="game in games" :key="game.url">
+        <v-flex
+          xs12
+          sm6
+          md6
+          lg4
+          v-for="game in games"
+          :key="game.url"
+          v-show="game.promo"
+        >
           <v-card :elevation="3" class="ma-2 d-flex flex-column" height="95%">
             <v-img :src="game.imageSrc" aspect-ratio="1.78" height="200px">
             </v-img>
@@ -97,26 +116,44 @@
               <v-btn
                 text
                 class="accent rounded-0 textreal"
+                @click="$router.absUrl(game.link)"
+                >{{ $t("download") }}</v-btn
+              >
+              <v-btn
+                text
+                class="accent rounded-0 textreal"
                 :to="'/game/' + game.url"
                 >{{ $t("open") }}</v-btn
               >
+
               <!--<buy-modal :game="game"></buy-modal>-->
             </v-card-actions>
           </v-card>
         </v-flex>
       </v-layout>
       <v-col class="text-center" cols="12">
-        <v-btn v-if="2 in this.$store.getters.games" text class="accent rounded-0 textreal mt-4" :to="'/games'">{{
-          $t("moreGames")
-        }}</v-btn>
+        <v-btn
+          v-if="2 in this.$store.getters.games"
+          text
+          class="accent rounded-0 textreal mt-4"
+          :to="'/games'"
+          >{{ $t("moreGames") }}</v-btn
+        >
+        <v-btn
+          v-if="isUserLoggedIn"
+          text
+          class="accent rounded-0 textreal mt-4"
+          :to="'/newGame'"
+          >{{ $t("newGame") }}</v-btn
+        >
       </v-col>
     </v-container>
 
     <!-- About -->
     <v-divider class="mx-2 mt-1 mb-2"></v-divider>
-    <h2 class="mt-2 h2title primary">{{ $t("about") }}</h2>
+    <h2 class="mt-2 h2title primary" v-if="isUserLoggedIn || (ab.id != null && ab.text[langs].length > 14)">{{ $t("about") }}</h2>
 
-    <v-container class="pa-2" fluid>
+    <v-container class="pa-2" fluid v-if="isUserLoggedIn || (ab.id != null && ab.text[langs].length > 14)">
       <v-row dense>
         <v-col cols="12">
           <v-card :elevation="3" class="d-flex flex-column">
@@ -142,7 +179,7 @@
     <v-container class="pa-2" fluid>
       <v-row dense>
         <v-col
-          v-for="te in team"
+          v-for="te in teams"
           :key="te.url"
           xs="12"
           sm="12"
@@ -173,15 +210,15 @@
                 <v-spacer></v-spacer>
                 <v-card-text>
                   <div class="text--primary">
-                    {{ te[langs].text }}
+                    {{ getShort(te[langs].text) }}
                   </div>
                 </v-card-text>
               </v-col>
             </v-row>
-            <v-col>
+            <v-col class="py-1 px-1">
               <v-divider class="mx-2 mb-1"></v-divider>
 
-              <v-card-actions class="d-flex mb-2">
+              <v-card-actions class="d-flex mb-0">
                 <v-spacer></v-spacer>
                 <v-btn
                   v-if="isUserLoggedIn"
@@ -194,20 +231,44 @@
                   text
                   class="accent rounded-0 textreal"
                   :to="'/about#' + te.url"
-                  >{{ $t("open") }}</v-btn
+                  >{{ $t("read") }}</v-btn
                 >
               </v-card-actions>
             </v-col>
           </v-card>
         </v-col>
       </v-row>
+      <v-col class="text-center" cols="12">
+        <!--<v-btn v-if="2 in this.$store.getters.games" text class="accent rounded-0 textreal mt-4" :to="'/games'">{{
+          $t("moreGames")
+        }}</v-btn>-->
+
+        <v-btn text class="accent rounded-0 textreal mt-1" :to="'/about'">{{
+          $t("more")
+        }}</v-btn>
+        
+        <v-btn
+          v-if="isUserLoggedIn"
+          text
+          class="accent rounded-0 textreal mt-1"
+          :to="'/newTeam'"
+        >
+        {{ $t("newPerson") }}
+        </v-btn>
+      </v-col>
     </v-container>
   </div>
 </template>
 
 <script>
-import EditAboutModal from "./EditAboutModal";
+import EditAboutModal from "@/components/admin/EditAboutModal";
 export default {
+  name: "Home",
+  metaInfo() {
+    return {
+      title: `${this.$t("mainT")} | Atlantic games`,
+    };
+  },
   computed: {
     slider() {
       return this.$store.getters.promoNews;
@@ -221,8 +282,8 @@ export default {
     games() {
       return this.$store.getters.games2;
     },
-    team() {
-      return this.$store.getters.teamShort;
+    teams() {
+      return this.$store.getters.team;
     },
     loading() {
       return this.$store.getters.loading;
@@ -240,9 +301,19 @@ export default {
   components: {
     EditAboutModal: EditAboutModal,
   },
+  methods: {
+    getShort (txt) {
+			const coun = 200
+      let text = txt
+      text = text.replace(/<\/?[^>]+>/g,' ')
+      if(text.length > coun)
+        text = text.slice(0, coun) + "..."
+        return text
+    }
+  },
   watch: {
     langs: function () {
-      console.log("GG ", this.langs);
+      //console.log("GG ", this.langs);
     },
   },
 };

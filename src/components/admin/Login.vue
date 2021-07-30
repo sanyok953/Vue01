@@ -60,6 +60,12 @@
 
 <script>
 	export default {
+		name: "Login",
+		metaInfo() {
+			return {
+				title: `Login | Atlantic games`,
+			};
+		},
 		data () {
 			return {
 				email: '',

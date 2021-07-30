@@ -1,13 +1,12 @@
 <template>
 	<v-container>
-		
 		<v-layout row>
 			<v-flex xs12 sm6 offset-sm3>
-				<h1 class="text--secondary mb-3">Edit Game</h1>
+				<h1 class="text--secondary mb-3">Edit News</h1>
 				<v-form v-model="valid" ref="form" validation class="mb-3">
 					<!-- title -->
 					<v-text-field
-						label="Game title EN"
+						label="News title EN"
 						name="title1"
 						type="text"
 						v-model="title1"
@@ -15,7 +14,7 @@
 						:rules="[v => !!v || 'TitleEn is required']"
 					></v-text-field>
 					<v-text-field
-						label="Game title ES"
+						label="News title ES"
 						name="title2"
 						type="text"
 						v-model="title2"
@@ -23,7 +22,7 @@
 						:rules="[v => !!v || 'TitleEs is required']"
 					></v-text-field>
 					<v-text-field
-						label="Game title RU"
+						label="News title RU"
 						name="title3"
 						type="text"
 						v-model="title3"
@@ -32,7 +31,7 @@
 					></v-text-field>
 					<!-- description -->
 					<v-textarea
-						label="Game description EN"
+						label="News description EN"
 						name="description1"
 						type="text"
 						v-model="description1"
@@ -40,7 +39,7 @@
 						:rules="[v => !!v || 'DescriptionEn is required']"
 					></v-textarea>
 					<v-textarea
-						label="Game description ES"
+						label="News description ES"
 						name="description2"
 						type="text"
 						v-model="description2"
@@ -48,7 +47,7 @@
 						:rules="[v => !!v || 'DescriptionEs is required']"
 					></v-textarea>
 					<v-textarea
-						label="Game description RU"
+						label="News description RU"
 						name="description3"
 						type="text"
 						v-model="description3"
@@ -56,20 +55,20 @@
 						:rules="[v => !!v || 'DescriptionRu is required']"
 					></v-textarea>
 					<!-- text -->
-					<h4 class="text--secondary mt-3">Game text EN</h4>
+					<h4 class="text--secondary mt-3">News text EN</h4>
 					<tiptap-vuetify
 						v-model="text1"
 						:extensions="extensions"
 						:toolbar-attributes="{ color: 'primary' }"
 						:rules="[v => !!v || 'TextEn is required']" />
-					<h4 class="text--secondary mt-3">Game text ES</h4>
+					<h4 class="text--secondary mt-3">News text ES</h4>
 					<tiptap-vuetify
 						v-model="text2"
 						:extensions="extensions"
 						:toolbar-attributes="{ color: 'primary' }"
 						:rules="[v => !!v || 'TextEs is required']"
 					/>
-					<h4 class="text--secondary mt-3">Game text RU</h4>
+					<h4 class="text--secondary mt-3">News text RU</h4>
 					<tiptap-vuetify
 						v-model="text3"
 						:extensions="extensions"
@@ -114,11 +113,11 @@
 							:loading="loading"
 							:disabled="!valid || !(this.imageSrc.length > 1) || loading"
 							class="success mb-12 mt-3"
-							@click="editGame"
-						>Edit Game</v-btn>
+							@click="editNews"
+						>Edit news</v-btn>
 					</v-flex>
 				</v-layout>
-				{{ ini(gamez) }}
+				{{ ini(nez) }}
 			</v-flex>
 		</v-layout>
 	</v-container>
@@ -127,6 +126,12 @@
 <script>
 	import { TiptapVuetify, Heading, Bold, Italic, Strike, Underline, Code, Paragraph, BulletList, OrderedList, ListItem, Link, Blockquote, HardBreak, HorizontalRule, History, Image } from 'tiptap-vuetify'
 	export default {
+		name: "editNews",
+		metaInfo() {
+			return {
+				title: `Edit news | Atlantic games`,
+			};
+		},
 		props: ['ide'],
 		components: { TiptapVuetify },
 		data: () => ({
@@ -151,7 +156,6 @@
 					}
 				],
 				Bold,
-				Link,
 				Code,
 				HorizontalRule,
 				Paragraph,
@@ -173,9 +177,9 @@
 			imageSrc: ''
 		}),
 		computed: {
-			gamez () {
+			nez () {
 				const ide = this.ide
-				return this.$store.getters.gameById(ide)
+				return this.$store.getters.newsById(ide)
 			},
 			loading () {
 				return this.$store.getters.loading
@@ -185,25 +189,25 @@
 			}*/
 		},
 		methods: {
-			ini (gamez) {
+			ini (nz) {
 				if(!this.load) { // Сработает один раз, какого то черта работало несколько при загрузке картинки
-					this.title1 = gamez.en.title
-					this.title2 = gamez.es.title
-					this.title3 = gamez.ru.title
-					this.description1 = gamez.en.description
-					this.description2 = gamez.es.description
-					this.description3 = gamez.ru.description
-					this.text1 = gamez.en.text
-					this.text2 = gamez.es.text
-					this.text3 = gamez.ru.text
-					this.promo = gamez.promo
-					this.imageSrc = gamez.imageSrc
+					this.title1 = nz.en.title
+					this.title2 = nz.es.title
+					this.title3 = nz.ru.title
+					this.description1 = nz.en.description
+					this.description2 = nz.es.description
+					this.description3 = nz.ru.description
+					this.text1 = nz.en.text
+					this.text2 = nz.es.text
+					this.text3 = nz.ru.text
+					this.promo = nz.promo
+					this.imageSrc = nz.imageSrc
 					this.load = true
 				}
 			},
-			editGame () {
+			editNews () {
 				if(this.$refs.form.validate() && this.imageSrc.length > 1) {
-					const game = {
+					const ne = {
 						en: {
 							title: this.title1,
 							description: this.description1,
@@ -225,9 +229,9 @@
 						id: this.ide
 					}
 					
-					this.$store.dispatch('editGame', game)
+					this.$store.dispatch('editNews', ne)
 					.then(() => {
-						this.$router.push('/games')
+						this.$router.push('/news')
 					})
 					.catch(() => {})
 				}

@@ -2,7 +2,7 @@
 	<v-dialog width="400px" v-model="modal">
 		
 		<template v-slot:activator="{ on }">
-			<v-btn class="warning rounded-0" text v-on="on">{{ $t('edit') }}</v-btn>
+			<v-btn class="primary rounded-0" text v-on="on">{{ $t('edit') }}</v-btn>
 		</template>
 		<v-card>
 			<v-container>

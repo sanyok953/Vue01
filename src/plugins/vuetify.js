@@ -21,7 +21,8 @@ export default new Vuetify({
 				warning: colors.orange.darken1,
 				info: colors.cyan.lighten4,
 				success: colors.green.lighten1,
-				background: colors.grey.lighten5
+				background: colors.grey.lighten5,
+				comments: colors.grey.lighten4
 			},
 			dark: {
 				primary: colors.indigo.darken4,
@@ -31,15 +32,16 @@ export default new Vuetify({
 				warning: colors.orange.darken4,
 				info: colors.cyan.darken4,
 				success: colors.green.darken4,
-				background: colors.grey.darken3
+				background: colors.grey.darken3,
+				comments: colors.grey.lighten2
 			}
 		}
 	},
-  watch: {
-    theme: function () {
-      console.log("TH ", this.theme.dark);
-    }
-  }
+	watch: {
+		theme: function () {
+			console.log("TH ", this.theme.dark);
+		}
+	}
 
 	/*lang: {
 		locales: { ru, es, en },

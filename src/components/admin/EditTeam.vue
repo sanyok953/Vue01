@@ -55,6 +55,93 @@
 						multi-line
 						:rules="[v => !!v || 'PositionRu is required']"
 					></v-textarea>
+					
+					<!-- Links -->
+					<v-text-field
+						label="Facabook"
+						name="fb"
+						type="text"
+						v-model="links.fb"
+					></v-text-field>
+					<v-text-field
+						label="VK"
+						name="vk"
+						type="text"
+						v-model="links.vk"
+					></v-text-field>
+					<v-text-field
+						label="Youtube"
+						name="yt"
+						type="text"
+						v-model="links.yt"
+					></v-text-field>
+					<v-text-field
+						label="Pinterest"
+						name="pt"
+						type="text"
+						v-model="links.pt"
+					></v-text-field>
+					<v-text-field
+						label="OK"
+						name="ok"
+						type="text"
+						v-model="links.ok"
+					></v-text-field>
+					<v-text-field
+						label="LinkedIn"
+						name="li"
+						type="text"
+						v-model="links.li"
+					></v-text-field>
+					<v-text-field
+						label="Instagram"
+						name="ig"
+						type="text"
+						v-model="links.ig"
+					></v-text-field>
+					<v-text-field
+						label="Github"
+						name="gh"
+						type="text"
+						v-model="links.gh"
+					></v-text-field>
+					<v-text-field
+						label="Bahance"
+						name="bh"
+						type="text"
+						v-model="links.bh"
+					></v-text-field>
+					<v-text-field
+						label="Artstation"
+						name="as"
+						type="text"
+						v-model="links.as"
+					></v-text-field>
+					<v-text-field
+						label="Site"
+						name="st"
+						type="text"
+						v-model="links.st"
+					></v-text-field>
+					<v-text-field
+						label="Google play"
+						name="gp"
+						type="text"
+						v-model="links.gp"
+					></v-text-field>
+					<v-text-field
+						label="Email"
+						name="em"
+						type="text"
+						v-model="links.em"
+					></v-text-field>
+					<v-text-field
+						label="Telegram"
+						name="tg"
+						type="text"
+						v-model="links.tg"
+					></v-text-field>
+
 					<!-- text -->
 					<h4 class="text--secondary mt-3">Team text EN</h4>
 					<tiptap-vuetify
@@ -118,6 +205,12 @@
 <script>
 	import { TiptapVuetify, Heading, Bold, Italic, Strike, Underline, Code, Paragraph, BulletList, OrderedList, ListItem, Link, Blockquote, HardBreak, HorizontalRule, History, Image } from 'tiptap-vuetify'
 	export default {
+		name: "editAbout",
+		metaInfo() {
+			return {
+				title: `Edit about, team | Atlantic games`,
+			};
+		},
 		props: ['ide'],
 		components: { TiptapVuetify },
 		data: () => ({
@@ -160,7 +253,8 @@
 			text3: '',
 			valid: false,
 			image: null,
-			imageSrc: ''
+			imageSrc: '',
+			links: {fb: '', vk: '', yt: '', pt: '', ok: '', li: '', ig: '', gh: '', bh: '', as: '', st: '', gp: '', em: '', tg: ''}
 		}),
 		computed: {
 			teams () {
@@ -177,6 +271,7 @@
 		methods: {
 			ini (teams) {
 				if(!this.load) { // Сработает один раз, какого то черта работало несколько при загрузке картинки
+					
 					this.name1 = teams.en.name
 					this.name2 = teams.es.name
 					this.name3 = teams.ru.name
@@ -187,6 +282,20 @@
 					this.text2 = teams.es.text
 					this.text3 = teams.ru.text
 					this.imageSrc = teams.imageSrc
+					this.links.fb = teams.links.fb || ''
+					this.links.vk = teams.links.vk || ''
+					this.links.yt = teams.links.yt || ''
+					this.links.pt = teams.links.pt || ''
+					this.links.ok = teams.links.ok || ''
+					this.links.li = teams.links.li || ''
+					this.links.ig = teams.links.ig || ''
+					this.links.gh = teams.links.gh || ''
+					this.links.bh = teams.links.bh || ''
+					this.links.as = teams.links.as || ''
+					this.links.st = teams.links.st || ''
+					this.links.gp = teams.links.gp || ''
+					this.links.em = teams.links.em || ''
+					this.links.tg = teams.links.tg || ''
 					this.load = true
 				}
 			},
@@ -210,6 +319,7 @@
 						},
 						imageSrc: this.imageSrc,
 						image: this.image,
+						links: {fb: this.links.fb, vk: this.links.vk, yt: this.links.yt, pt: this.links.pt, ok: this.links.ok, li: this.links.li, ig: this.links.ig, gh: this.links.gh, bh: this.links.bh, as: this.links.as, st: this.links.st, gp: this.links.gp, em: this.links.em, tg: this.links.tg},
 						id: this.ide
 					}
 					

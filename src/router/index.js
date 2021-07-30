@@ -7,13 +7,22 @@ import New from '@/components/New'
 import Games from '@/components/Games'
 import Game from '@/components/Game'
 import About from '@/components/About'
-import Login from '@/components/Login'
-import NewNews from '@/components/NewNews'
-import EditNews from '@/components/EditNews'
-import NewGame from '@/components/NewGame'
-import EditGame from '@/components/EditGame'
-import NewTeam from '@/components/NewTeam'
-import EditTeam from '@/components/EditTeam'
+import Login from '@/components/admin/Login'
+import NewNews from '@/components/admin/NewNews'
+import EditNews from '@/components/admin/EditNews'
+import NewGame from '@/components/admin/NewGame'
+import EditGame from '@/components/admin/EditGame'
+import NewTeam from '@/components/admin/NewTeam'
+import EditTeam from '@/components/admin/EditTeam'
+import PageNotFound from '@/components/PageNotFound'
+
+VueRouter.prototype.absUrl = function (url, newTab = true) {
+	const link = document.createElement('a')
+	link.href = url
+	link.target = newTab ? '_blank' : ''
+	if (newTab) link.rel = 'noopener noreferrer' // IMPORTANT to add this
+	link.click()
+}
 
 Vue.use(VueRouter)
 
@@ -56,7 +65,7 @@ const routes = [
 		component: Games
 	},
 	{
-		path: '/game/:id',
+		path: '/game/:url',
 		props: true,
 		name: 'game',
 		component: Game
@@ -98,13 +107,17 @@ const routes = [
 		path: '/login',
 		name: 'login',
 		component: Login
+	},
+	{
+		path: "*",
+		component: PageNotFound
 	}
 ]
 
 const router = new VueRouter({
-  mode: 'history',
-  base: process.env.BASE_URL,
-  routes
+	mode: 'history',
+	base: process.env.BASE_URL,
+	routes
 })
 
 export default router
