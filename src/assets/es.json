@@ -19,11 +19,14 @@
   "comments": "Comentarios",
   "ourTeam": "Nuestro equipo",
   "p404": "Página no encontrada",
+  "close": "Cerrar",
 
   "mainT": "Inicio noticias, juegos, nuestro equipo",
   "allNewsT": "Tadas las noticias",
   "allGamesT": "Todos los juegos",
   "gameT": "Juego",
   "newsT": "Noticias",
-  "aboutT": "Sobre nosotros | Nuestro equipo"
+  "aboutT": "Sobre nosotros | Nuestro equipo",
+
+  "cookies": "Usamos cookies para mejorar el rendimiento del sitio y la experiencia del usuario. Si continúa navegando por el sitio, acepta el uso de cookies. Siempre puede desactivar las cookies en la configuración de su navegador."
 }

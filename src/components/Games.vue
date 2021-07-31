@@ -1,7 +1,8 @@
 <template>
   <div>
     <!-- Games -->
-    <v-container fluid>
+    <h2 class="mt-2 h2title primary">{{ $t("games") }}</h2>
+    <v-container fluid class="pt-1">
       <v-layout row wrap class="mt-1">
         <v-flex xs12 sm12 md6 lg6 v-for="game in games" :key="game.url" v-show="isUserLoggedIn || game.promo">
           <v-card :elevation="3" class="ma-2 d-flex flex-column" height="95%">

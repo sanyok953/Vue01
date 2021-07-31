@@ -114,7 +114,7 @@
         <!-- Routed content -->
         <v-main>
           <div v-if="!loading" class="background main-color ml-2 mr-2 pb-4">
-            <router-view />
+            <routerView />
           </div>
           <!-- Progress, loading -->
           <div v-else class="background main-color ml-2 mr-2 pb-4">
@@ -147,7 +147,25 @@
 
           <template v-slot:action="{ attrs }">
             <v-btn dark text v-bind="attrs" @click.native="closeError">
-              Close
+              {{ $t('close') }}
+            </v-btn>
+          </template>
+        </v-snackbar>
+
+        <!-- Show cookies messages -->
+        <v-snackbar
+          :multi-line="true"
+          :timeout="-1"
+          color="accent"
+          class="text--primary"
+          :value="true"
+          v-if="!cookies"
+        >
+          {{ $t('cookies') }}
+
+          <template v-slot:action="{ attrs }">
+            <v-btn dark text v-bind="attrs" @click.native="cookieOk">
+              {{ $t('close') }}
             </v-btn>
           </template>
         </v-snackbar>
@@ -166,8 +184,6 @@
 
 export default {
   name: "App",
-
-  components: {},
   computed: {
     links() {
       if (this.isUserLoggedIn) {
@@ -203,11 +219,6 @@ export default {
           icon: "mdi-account-multiple",
           url: "/about",
         },
-        {
-          title: this.$t("login"),
-          icon: "mdi-account-arrow-left",
-          url: "/login",
-        },
       ];
     },
     error() {
@@ -230,11 +241,12 @@ export default {
       set(value) {
         return (this.$vuetify.theme.dark = value);
       },
-    },
+    }
   },
   data: () => ({
     lgmenu: false,
     drawer: false,
+    cookies: localStorage.getItem("cookies") || false,
     back: { background: require("./assets/img/mc.png") },
     //lang: localStorage.getItem('lang') || 'en',
     flags: [
@@ -247,18 +259,23 @@ export default {
     closeError() {
       this.$store.dispatch("clearError");
     },
+    cookieOk() {
+      console.log("cookies")
+      localStorage.setItem("cookies", true)
+      this.cookies = true
+    },
     setLocale(locale) {
-      this.$i18n.locale = locale;
-      this.lgmenu = false;
+      this.$i18n.locale = locale
+      this.lgmenu = false
       //console.log("FF ", this.$router);
-      localStorage.setItem("lang", locale);
-      this.$forceUpdate();
+      localStorage.setItem("lang", locale)
+      this.$forceUpdate()
     },
     hideLang() {
       this.lgmenu = false;
     },
     onLogout() {
-      this.$store.dispatch("logoutUser");
+      this.$store.dispatch("logoutUser")
       this.$router.push("/");
     },
   },

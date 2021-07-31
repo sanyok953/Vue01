@@ -104,7 +104,7 @@
             </v-card-text>
             <v-spacer></v-spacer>
             <v-divider class="mx-3 mb-1"></v-divider>
-            <v-card-actions>
+            <v-card-actions class="mb-1">
               <v-spacer></v-spacer>
               <v-btn
                 v-if="isUserLoggedIn"
@@ -187,7 +187,7 @@
           lg="6"
           class="mt-6"
         >
-          <v-card :elevation="3" class="mt-2 d-flex flex-column" height="95%">
+          <v-card :elevation="3" class="mt-2 d-flex flex-column" height="100%">
             <v-row class="ma-0">
               <v-col xs="12" sm="4" md="4" lg="3">
                 <v-avatar
@@ -215,10 +215,10 @@
                 </v-card-text>
               </v-col>
             </v-row>
-            <v-col class="py-1 px-1">
-              <v-divider class="mx-2 mb-1"></v-divider>
+            <v-col class="pb-0">
+              <v-divider class=""></v-divider>
 
-              <v-card-actions class="d-flex mb-0">
+              <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn
                   v-if="isUserLoggedIn"

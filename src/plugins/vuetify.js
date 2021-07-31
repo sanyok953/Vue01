@@ -19,7 +19,7 @@ export default new Vuetify({
 				accent: colors.deepOrange.base,
 				error: colors.red.darken1,
 				warning: colors.orange.darken1,
-				info: colors.cyan.lighten4,
+				info: colors.lightGreen.lighten4,
 				success: colors.green.lighten1,
 				background: colors.grey.lighten5,
 				comments: colors.grey.lighten4

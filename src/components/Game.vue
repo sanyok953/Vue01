@@ -19,8 +19,8 @@
           </v-card-text>
           
           <!-- Admin -->
-          <v-divider v-if="isUserLoggedIn"></v-divider>
-          <v-card-actions v-if="isUserLoggedIn">
+          <v-divider v-if="isUserLoggedIn || game.link != ''" class="mx-3"></v-divider>
+          <v-card-actions v-if="isUserLoggedIn || game.link != ''">
             <v-spacer></v-spacer>
             <v-btn
               text
@@ -30,13 +30,14 @@
               >{{ $t("download") }}</v-btn>
             <v-btn
               text
+              v-if="isUserLoggedIn"
               class="primary rounded-0 textreal"
               :to="'/editGame/' + game.id"
               >{{ $t("edit") }}</v-btn>
           </v-card-actions>
 
-    <v-divider class="mx-3 mt-1 mb-2"></v-divider>
-    <h2 class="mt-2 mb-3 h2title primary">{{ $t("comments") }}</h2>
+          <v-divider class="mx-3 mt-1 mb-2"></v-divider>
+          <h2 class="mt-2 mb-3 h2title primary">{{ $t("comments") }}</h2>
 
           <v-tabs
             v-model="tab"

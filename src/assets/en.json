@@ -19,11 +19,14 @@
   "comments": "Comments",
   "ourTeam": "Our team",
   "p404": "Page not found",
+  "close": "Close",
 
   "mainT": "Homepage news, games, our team",
   "allNewsT": "All the news",
   "allGamesT": "All the games",
   "gameT": "Game",
   "newsT": "News",
-  "aboutT": "About | Out team"
+  "aboutT": "About | Out team",
+
+  "cookies": "We use cookies to improve the site's performance and user experience. By continuing to browse the site, you consent to the use of cookies. You can always disable cookies in your browser settings."
 }

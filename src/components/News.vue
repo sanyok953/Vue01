@@ -1,7 +1,8 @@
 <template>
   <div>
     <!-- News -->
-    <v-container fluid>
+    <h2 class="mt-2 h2title primary">{{ $t("news") }}</h2>
+    <v-container fluid class="pt-1">
       <v-layout row wrap class="mt-1">
         <v-flex xs12 sm12 md6 lg6 v-for="ne in news" :key="ne.url">
           <v-card :elevation="3" class="ma-2 d-flex flex-column" height="95%">
@@ -87,5 +88,10 @@ export default {
 .left-radius {
   border-top-left-radius: 3px;
   border-bottom-left-radius: 3px;
+}
+.h2title {
+  display: inline-block;
+  padding: 0 8px;
+  margin-left: -6px;
 }
 </style>
