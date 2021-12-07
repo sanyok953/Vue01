@@ -93,5 +93,6 @@ export default {
   display: inline-block;
   padding: 0 8px;
   margin-left: -6px;
+  color: ivory;
 }
 </style>

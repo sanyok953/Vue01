@@ -116,6 +116,7 @@
               <v-btn
                 text
                 class="accent rounded-0 textreal"
+                v-if="game.link != ''"
                 @click="$router.absUrl(game.link)"
                 >{{ $t("download") }}</v-btn
               >
